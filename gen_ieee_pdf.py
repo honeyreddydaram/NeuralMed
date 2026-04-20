@@ -494,82 +494,65 @@ def build_story():
     s += screen('p09_heart_not_detected.png',
                 'Fig. 15. Heart Disease — No Heart Disease Detected result.')
 
-    # ── Patient Portal — Liver ───────────────────────────────────────────────
-    s.append(SH('D.  Patient Portal — Liver Disease'))
-    s += screen('p10_liver_form.png',
-                'Fig. 16. Liver Disease — patient input form (10 features).')
-    s += screen('p11_liver_positive.png',
-                'Fig. 17. Liver Disease — Liver Disease Positive result.')
-    s += screen('p12_liver_negative.png',
-                'Fig. 18. Liver Disease — Liver Disease Negative result.')
-
     # ── Patient Portal — Parkinsons ──────────────────────────────────────────
-    s.append(SH("E.  Patient Portal — Parkinson's Disease"))
+    s.append(SH("D.  Patient Portal — Parkinson's Disease"))
     s += screen('p13_parkinsons_form.png',
-                "Fig. 19. Parkinson's — patient input form (8 voice features).")
+                "Fig. 16. Parkinson's — patient input form (8 voice features).")
     s += screen('p14_parkinsons_detected.png',
-                "Fig. 20. Parkinson's — Parkinson's Detected result.")
+                "Fig. 17. Parkinson's — Parkinson's Detected result.")
     s += screen('p15_parkinsons_not_detected.png',
-                "Fig. 21. Parkinson's — No Parkinson's Detected result.")
+                "Fig. 18. Parkinson's — No Parkinson's Detected result.")
 
     # ── Patient Portal — Breast Cancer ───────────────────────────────────────
-    s.append(SH('F.  Patient Portal — Breast Cancer'))
+    s.append(SH('E.  Patient Portal — Breast Cancer'))
     s += screen('p16_bcancer_form.png',
-                'Fig. 22. Breast Cancer — FNA measurement input form (22 features).')
+                'Fig. 16. Breast Cancer — FNA measurement input form (22 features).')
     s += screen('p17_bcancer_malignant.png',
-                'Fig. 23. Breast Cancer — Malignant prediction result.')
+                'Fig. 17. Breast Cancer — Malignant prediction result.')
     s += screen('p18_bcancer_benign.png',
-                'Fig. 24. Breast Cancer — Benign prediction result.')
+                'Fig. 18. Breast Cancer — Benign prediction result.')
 
     # ── Patient Portal — Kidney ───────────────────────────────────────────────
-    s.append(SH('G.  Patient Portal — Kidney CT'))
+    s.append(SH('F.  Patient Portal — Kidney CT'))
     s += screen('p19_kidney_form.png',
-                'Fig. 25. Kidney CT — image upload form (VGG-16 inference).')
+                'Fig. 16. Kidney CT — image upload form (VGG-16 inference).')
 
     # ── Doctor Portal ─────────────────────────────────────────────────────────
-    s.append(SH('H.  Doctor Portal — Landing'))
+    s.append(SH('G.  Doctor Portal — Landing'))
     s += screen('d01_doctor_portal.png',
-                'Fig. 26. Doctor Portal — disease module selection hub.')
+                'Fig. 17. Doctor Portal — disease module selection hub.')
 
-    s.append(SH('I.  Doctor Portal — Diabetes'))
+    s.append(SH('H.  Doctor Portal — Diabetes'))
     s += screen('d02_doctor_diabetes_form.png',
-                'Fig. 27. Doctor Portal — Diabetes input form with reference ranges.')
+                'Fig. 18. Doctor Portal — Diabetes input form with reference ranges.')
     s += screen('d03b_doctor_diabetes_result_scroll.png',
-                'Fig. 28. Doctor Portal — Diabetes Detected: confidence %, feature importance, AI summary.')
+                'Fig. 16. Doctor Portal — Diabetes Detected: confidence %, feature importance, AI summary.')
     s += screen('d04_doctor_diabetes_not_detected.png',
-                'Fig. 29. Doctor Portal — No Diabetes Detected result.')
+                'Fig. 17. Doctor Portal — No Diabetes Detected result.')
 
-    s.append(SH('J.  Doctor Portal — Heart Disease'))
+    s.append(SH('I.  Doctor Portal — Heart Disease'))
     s += screen('d05_doctor_heart_form.png',
-                'Fig. 30. Doctor Portal — Heart Disease input form.')
+                'Fig. 18. Doctor Portal — Heart Disease input form.')
     s += screen('d06b_doctor_heart_result_scroll.png',
-                'Fig. 31. Doctor Portal — Heart Disease Detected: confidence, importances, summary.')
+                'Fig. 16. Doctor Portal — Heart Disease Detected: confidence, importances, summary.')
     s += screen('d07_doctor_heart_not_detected.png',
-                'Fig. 32. Doctor Portal — No Heart Disease Detected result.')
+                'Fig. 17. Doctor Portal — No Heart Disease Detected result.')
 
-    s.append(SH('K.  Doctor Portal — Liver Disease'))
-    s += screen('d08_doctor_liver_form.png',
-                'Fig. 33. Doctor Portal — Liver Disease input form.')
-    s += screen('d09b_doctor_liver_result_scroll.png',
-                'Fig. 34. Doctor Portal — Liver Disease Positive: confidence, importances, AI summary.')
-    s += screen('d10_doctor_liver_negative.png',
-                'Fig. 35. Doctor Portal — Liver Disease Negative result.')
-
-    s.append(SH("L.  Doctor Portal — Parkinson's"))
+    s.append(SH("J.  Doctor Portal — Parkinson's"))
     s += screen('d11_doctor_parkinsons_form.png',
-                "Fig. 36. Doctor Portal — Parkinson's Disease input form.")
+                "Fig. 18. Doctor Portal — Parkinson's Disease input form.")
     s += screen('d12b_doctor_parkinsons_result_scroll.png',
-                "Fig. 37. Doctor Portal — Parkinson's Detected: confidence, importances, AI summary.")
+                "Fig. 16. Doctor Portal — Parkinson's Detected: confidence, importances, AI summary.")
     s += screen('d13_doctor_parkinsons_not_detected.png',
-                "Fig. 38. Doctor Portal — No Parkinson's Detected result.")
+                "Fig. 17. Doctor Portal — No Parkinson's Detected result.")
 
-    s.append(SH('M.  Doctor Portal — Breast Cancer'))
+    s.append(SH('K.  Doctor Portal — Breast Cancer'))
     s += screen('d14_doctor_bcancer_form.png',
-                'Fig. 39. Doctor Portal — Breast Cancer FNA input form.')
+                'Fig. 18. Doctor Portal — Breast Cancer FNA input form.')
     s += screen('d15b_doctor_bcancer_result_scroll.png',
-                'Fig. 40. Doctor Portal — Malignant: confidence, feature importances, AI summary.')
+                'Fig. 16. Doctor Portal — Malignant: confidence, feature importances, AI summary.')
     s += screen('d16_doctor_bcancer_benign.png',
-                'Fig. 41. Doctor Portal — Benign prediction result.')
+                'Fig. 17. Doctor Portal — Benign prediction result.')
 
     # ═══════════════════════ SECTION X — Conclusion ═══════════════════════════
     s.append(Spacer(1, 4))
