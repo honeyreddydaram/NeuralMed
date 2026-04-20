@@ -100,7 +100,7 @@ def make_templates():
 
 # ── Helper: scaled image ───────────────────────────────────────────────────────
 RESULTS = '/Users/honey/Downloads/Deep-Learning-Project/results'
-DOCS    = '/Users/honey/Downloads/Deep-Learning-Project/docs'
+DOCS    = '/Users/honey/Downloads/Deep-Learning-Project/docs_new'
 
 def fig(filename, caption, width=None, base=None):
     base = base or RESULTS
@@ -452,18 +452,18 @@ def build_story():
         'design language across all 21 Jinja2 templates.'))
     s.append(Spacer(1, 4))
 
-    s += screen('01_landing.png',
-                'Fig. 7. Landing page with embedded Gemini-powered AI chatbot.')
-    s += screen('04_diabetes_form.png',
-                'Fig. 8. Patient Portal — Diabetes screening form with input validation.')
-    s += screen('05_diabetes_positive.png',
-                'Fig. 9. Patient Portal — Diabetes positive prediction with AI explanation.')
-    s += screen('12_bcancer_form.png',
-                'Fig. 10. Patient Portal — Breast Cancer FNA measurement form.')
-    s += screen('13_bcancer_malignant.png',
-                'Fig. 11. Patient Portal — Breast Cancer malignant prediction result.')
-    s += screen('23_kidney_form.png',
-                'Fig. 12. Kidney CT upload interface (VGG-16 inference via subprocess).')
+    s += screen('fig7_landing.png',
+                'Fig. 7. NeuralMed landing page with embedded Gemini AI chatbot and service cards.')
+    s += screen('fig8_diabetes_form.png',
+                'Fig. 8. Patient Portal — Diabetes screening form (8 clinical features).')
+    s += screen('fig9_heart_form.png',
+                'Fig. 9. Patient Portal — Heart Disease screening form (13 features).')
+    s += screen('fig10_bcancer_form.png',
+                'Fig. 10. Patient Portal — Breast Cancer FNA measurement form (30 features).')
+    s += screen('fig13_doctor_portal.png',
+                'Fig. 11. Doctor Portal landing — disease module selection.')
+    s += screen('fig14_doctor_diabetes.png',
+                'Fig. 12. Doctor Portal — Diabetes form with reference ranges and confidence output.')
 
     # ═══════════════════════ SECTION X — Conclusion ═══════════════════════════
     s.append(Spacer(1, 4))
