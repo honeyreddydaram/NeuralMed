@@ -1,0 +1,332 @@
+{
+  "Diabetes": {
+    "Naive Bayes": {
+      "acc": 70.8,
+      "prec": 71.8,
+      "rec": 70.8,
+      "f1": 71.1,
+      "cv_mean": 75.5,
+      "cv_std": 3.4
+    },
+    "Logistic Reg.": {
+      "acc": 71.4,
+      "prec": 70.6,
+      "rec": 71.4,
+      "f1": 70.8,
+      "cv_mean": 77.5,
+      "cv_std": 1.5
+    },
+    "KNN": {
+      "acc": 70.8,
+      "prec": 70.2,
+      "rec": 70.8,
+      "f1": 70.4,
+      "cv_mean": 72.9,
+      "cv_std": 2.4
+    },
+    "SVM": {
+      "acc": 74.7,
+      "prec": 74.4,
+      "rec": 74.7,
+      "f1": 74.5,
+      "cv_mean": 76.0,
+      "cv_std": 1.7
+    },
+    "Decision Tree": {
+      "acc": 74.7,
+      "prec": 73.9,
+      "rec": 74.7,
+      "f1": 73.7,
+      "cv_mean": 68.1,
+      "cv_std": 5.2
+    },
+    "Random Forest": {
+      "acc": 74.7,
+      "prec": 74.4,
+      "rec": 74.7,
+      "f1": 74.5,
+      "cv_mean": 76.9,
+      "cv_std": 2.3
+    },
+    "XGBoost": {
+      "acc": 73.4,
+      "prec": 73.1,
+      "rec": 73.4,
+      "f1": 73.2,
+      "cv_mean": 73.2,
+      "cv_std": 2.2
+    },
+    "Extra Trees": {
+      "acc": 72.1,
+      "prec": 71.2,
+      "rec": 72.1,
+      "f1": 71.2,
+      "cv_mean": 77.1,
+      "cv_std": 2.3
+    }
+  },
+  "Heart Disease": {
+    "Naive Bayes": {
+      "acc": 85.2,
+      "prec": 85.5,
+      "rec": 85.2,
+      "f1": 85.2,
+      "cv_mean": 84.1,
+      "cv_std": 4.3
+    },
+    "Logistic Reg.": {
+      "acc": 85.2,
+      "prec": 86.2,
+      "rec": 85.2,
+      "f1": 85.2,
+      "cv_mean": 83.7,
+      "cv_std": 4.9
+    },
+    "KNN": {
+      "acc": 79.6,
+      "prec": 81.1,
+      "rec": 79.6,
+      "f1": 79.7,
+      "cv_mean": 81.5,
+      "cv_std": 3.3
+    },
+    "SVM": {
+      "acc": 81.5,
+      "prec": 81.8,
+      "rec": 81.5,
+      "f1": 81.5,
+      "cv_mean": 83.0,
+      "cv_std": 5.9
+    },
+    "Decision Tree": {
+      "acc": 79.6,
+      "prec": 80.2,
+      "rec": 79.6,
+      "f1": 79.7,
+      "cv_mean": 72.2,
+      "cv_std": 6.4
+    },
+    "Random Forest": {
+      "acc": 83.3,
+      "prec": 83.4,
+      "rec": 83.3,
+      "f1": 83.4,
+      "cv_mean": 80.7,
+      "cv_std": 8.7
+    },
+    "XGBoost": {
+      "acc": 83.3,
+      "prec": 83.4,
+      "rec": 83.3,
+      "f1": 83.4,
+      "cv_mean": 78.1,
+      "cv_std": 6.9
+    },
+    "Extra Trees": {
+      "acc": 79.6,
+      "prec": 80.2,
+      "rec": 79.6,
+      "f1": 79.7,
+      "cv_mean": 81.1,
+      "cv_std": 5.2
+    }
+  },
+  "Parkinson's": {
+    "Naive Bayes": {
+      "acc": 56.4,
+      "prec": 78.3,
+      "rec": 56.4,
+      "f1": 58.1,
+      "cv_mean": 59.5,
+      "cv_std": 6.8
+    },
+    "Logistic Reg.": {
+      "acc": 82.1,
+      "prec": 81.1,
+      "rec": 82.1,
+      "f1": 80.9,
+      "cv_mean": 83.1,
+      "cv_std": 5.5
+    },
+    "KNN": {
+      "acc": 89.7,
+      "prec": 89.7,
+      "rec": 89.7,
+      "f1": 89.7,
+      "cv_mean": 86.2,
+      "cv_std": 2.6
+    },
+    "SVM": {
+      "acc": 87.2,
+      "prec": 89.1,
+      "rec": 87.2,
+      "f1": 85.6,
+      "cv_mean": 84.1,
+      "cv_std": 4.4
+    },
+    "Decision Tree": {
+      "acc": 82.1,
+      "prec": 84.4,
+      "rec": 82.1,
+      "f1": 82.7,
+      "cv_mean": 87.7,
+      "cv_std": 5.2
+    },
+    "Random Forest": {
+      "acc": 92.3,
+      "prec": 92.7,
+      "rec": 92.3,
+      "f1": 92.4,
+      "cv_mean": 88.2,
+      "cv_std": 4.8
+    },
+    "XGBoost": {
+      "acc": 89.7,
+      "prec": 90.8,
+      "rec": 89.7,
+      "f1": 90.0,
+      "cv_mean": 88.7,
+      "cv_std": 6.6
+    },
+    "Extra Trees": {
+      "acc": 89.7,
+      "prec": 89.7,
+      "rec": 89.7,
+      "f1": 89.7,
+      "cv_mean": 89.2,
+      "cv_std": 5.2
+    }
+  },
+  "Liver Disease": {
+    "Naive Bayes": {
+      "acc": 53.8,
+      "prec": 77.7,
+      "rec": 53.8,
+      "f1": 53.7,
+      "cv_mean": 55.2,
+      "cv_std": 4.1
+    },
+    "Logistic Reg.": {
+      "acc": 69.2,
+      "prec": 64.1,
+      "rec": 69.2,
+      "f1": 64.5,
+      "cv_mean": 71.9,
+      "cv_std": 3.4
+    },
+    "KNN": {
+      "acc": 63.2,
+      "prec": 63.6,
+      "rec": 63.2,
+      "f1": 63.4,
+      "cv_mean": 67.1,
+      "cv_std": 2.9
+    },
+    "SVM": {
+      "acc": 69.2,
+      "prec": 50.0,
+      "rec": 69.2,
+      "f1": 58.0,
+      "cv_mean": 71.0,
+      "cv_std": 0.5
+    },
+    "Decision Tree": {
+      "acc": 59.0,
+      "prec": 57.5,
+      "rec": 59.0,
+      "f1": 58.2,
+      "cv_mean": 65.2,
+      "cv_std": 1.1
+    },
+    "Random Forest": {
+      "acc": 62.4,
+      "prec": 58.8,
+      "rec": 62.4,
+      "f1": 60.2,
+      "cv_mean": 69.6,
+      "cv_std": 2.4
+    },
+    "XGBoost": {
+      "acc": 63.2,
+      "prec": 62.3,
+      "rec": 63.2,
+      "f1": 62.7,
+      "cv_mean": 70.3,
+      "cv_std": 2.6
+    },
+    "Extra Trees": {
+      "acc": 69.2,
+      "prec": 63.5,
+      "rec": 69.2,
+      "f1": 63.7,
+      "cv_mean": 71.9,
+      "cv_std": 1.4
+    }
+  },
+  "Breast Cancer": {
+    "Naive Bayes": {
+      "acc": 93.0,
+      "prec": 93.0,
+      "rec": 93.0,
+      "f1": 93.0,
+      "cv_mean": 93.0,
+      "cv_std": 2.0
+    },
+    "Logistic Reg.": {
+      "acc": 98.2,
+      "prec": 98.2,
+      "rec": 98.2,
+      "f1": 98.2,
+      "cv_mean": 97.4,
+      "cv_std": 1.7
+    },
+    "KNN": {
+      "acc": 96.5,
+      "prec": 96.5,
+      "rec": 96.5,
+      "f1": 96.5,
+      "cv_mean": 96.7,
+      "cv_std": 1.4
+    },
+    "SVM": {
+      "acc": 98.2,
+      "prec": 98.2,
+      "rec": 98.2,
+      "f1": 98.2,
+      "cv_mean": 97.5,
+      "cv_std": 2.0
+    },
+    "Decision Tree": {
+      "acc": 91.2,
+      "prec": 91.6,
+      "rec": 91.2,
+      "f1": 91.3,
+      "cv_mean": 91.0,
+      "cv_std": 2.8
+    },
+    "Random Forest": {
+      "acc": 95.6,
+      "prec": 95.6,
+      "rec": 95.6,
+      "f1": 95.6,
+      "cv_mean": 95.6,
+      "cv_std": 1.2
+    },
+    "XGBoost": {
+      "acc": 95.6,
+      "prec": 95.7,
+      "rec": 95.6,
+      "f1": 95.6,
+      "cv_mean": 96.5,
+      "cv_std": 1.0
+    },
+    "Extra Trees": {
+      "acc": 95.6,
+      "prec": 95.7,
+      "rec": 95.6,
+      "f1": 95.6,
+      "cv_mean": 96.0,
+      "cv_std": 1.8
+    }
+  }
+}

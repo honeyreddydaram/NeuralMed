@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liver Disease — Doctor Portal | NeuralMed</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+<nav class="navbar">
+  <a href="/" class="navbar-brand">NeuralMed</a>
+  <ul class="navbar-links">
+    <li><a href="/doctor">Doctor Portal</a></li>
+    <li><a href="/liver">Patient View</a></li>
+  </ul>
+</nav>
+
+<div class="doctor-form-page">
+  <div class="form-card">
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.3rem;">
+      <span class="doctor-badge">&#9877; Doctor Portal</span>
+    </div>
+    <h1>Liver Disease Assessment</h1>
+    <p class="subtitle">10 hepatic function markers &middot; XGBoost model &middot; Feature importance attribution</p>
+
+    {% if error %}
+    <div class="result-card" style="background:rgba(255,79,109,.1);border-color:rgba(255,79,109,.4);margin-bottom:1.5rem;">
+      <strong style="color:#ff4f6d;">Error:</strong> {{ error }}
+    </div>
+    {% endif %}
+
+    <form method="POST" action="/doctor/liver">
+      <div class="dr-two-col">
+        <div class="form-group">
+          <label class="form-label">Age (years)</label>
+          <input type="number" name="age" class="form-input" min="1" max="120"
+                 value="{{ inputs['Age (years)'] if inputs else '' }}" required>
+          <span class="ref-hint">Liver disease risk increases with age</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Gender</label>
+          <select name="gender" class="form-input">
+            <option value="1" {% if inputs and inputs['Gender']=='Male' %}selected{% endif %}>Male (1)</option>
+            <option value="0" {% if inputs and inputs['Gender']=='Female' %}selected{% endif %}>Female (0)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Total Bilirubin (mg/dL)</label>
+          <input type="number" name="total_bilirubin" class="form-input" min="0" max="80" step="0.1"
+                 value="{{ inputs['Total Bilirubin (mg/dL)'] if inputs else '' }}" required>
+          <span class="ref-hint">Normal: <strong>0.2–1.2 mg/dL</strong> | Jaundice threshold: &gt;2.5</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Direct Bilirubin (mg/dL)</label>
+          <input type="number" name="direct_bilirubin" class="form-input" min="0" max="20" step="0.1"
+                 value="{{ inputs['Direct Bilirubin (mg/dL)'] if inputs else '' }}" required>
+          <span class="ref-hint">Normal: <strong>0.0–0.3 mg/dL</strong> | Elevated suggests hepatocellular or cholestatic disease</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Alkaline Phosphatase / ALP (IU/L)</label>
+          <input type="number" name="alkaline_phosphotase" class="form-input" min="0" max="3000"
+                 value="{{ inputs['Alkaline Phosphatase (IU/L)'] if inputs else '' }}" required>
+          <span class="ref-hint">Normal: <strong>44–147 IU/L</strong> | Elevated in cholestasis, bone disease</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">ALT / SGPT (IU/L)</label>
+          <input type="number" name="alamine_aminotransferase" class="form-input" min="0" max="3000"
+                 value="{{ inputs['ALT / SGPT (IU/L)'] if inputs else '' }}" required>
+          <span class="ref-hint">Normal: <strong>7–56 IU/L</strong> | Hepatocyte injury marker</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">AST / SGOT (IU/L)</label>
+          <input type="number" name="aspartate_aminotransferase" class="form-input" min="0" max="5000"
+                 value="{{ inputs['AST / SGOT (IU/L)'] if inputs else '' }}" required>
+          <span class="ref-hint">Normal: <strong>10–40 IU/L</strong> | AST:ALT &gt;2 suggests alcoholic liver disease</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Total Proteins (g/dL)</label>
+          <input type="number" name="total_proteins" class="form-input" min="0" max="15" step="0.1"
+                 value="{{ inputs['Total Proteins (g/dL)'] if inputs else '' }}" required>
+          <span class="ref-hint">Normal: <strong>6.0–8.3 g/dL</strong> | Low suggests hepatic synthetic dysfunction</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Albumin (g/dL)</label>
+          <input type="number" name="albumin" class="form-input" min="0" max="10" step="0.1"
+                 value="{{ inputs['Albumin (g/dL)'] if inputs else '' }}" required>
+          <span class="ref-hint">Normal: <strong>3.5–5.0 g/dL</strong> | Low: poor prognostic marker in cirrhosis</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Albumin/Globulin Ratio</label>
+          <input type="number" name="albumin_globulin_ratio" class="form-input" min="0" max="5" step="0.01"
+                 value="{{ inputs['Albumin/Globulin Ratio'] if inputs else '' }}" required>
+          <span class="ref-hint">Normal: <strong>1.0–2.5</strong> | Reversed ratio (&lt;1) in liver/kidney disease</span>
+        </div>
+      </div>
+
+      <button type="submit" class="cta-btn" style="margin-top:1.8rem;width:100%;">
+        Run Clinical Assessment
+      </button>
+    </form>
+
+    {% if prediction is defined and prediction is not none %}
+    {% set conf_class = 'high' if confidence >= 75 else ('medium' if confidence >= 55 else 'low') %}
+    <div class="dr-result" id="resultSection">
+      <div class="dr-result-header {{ 'positive' if positive else 'negative' }}">
+        <div>
+          <div style="font-size:.75rem;color:var(--muted);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.06em;">Prediction Result</div>
+          <div class="dr-prediction-label">{{ prediction }}</div>
+        </div>
+        <button class="print-btn" onclick="window.print()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+            <rect x="6" y="14" width="12" height="8"/>
+          </svg>
+          Print / Save PDF
+        </button>
+      </div>
+      <div class="dr-result-body">
+        <div style="margin-bottom:1.8rem;">
+          <div class="dr-section-title">Model Confidence</div>
+          <div class="confidence-track">
+            <div class="confidence-fill {{ conf_class }}" style="width:{{ confidence }}%"></div>
+            <span class="confidence-label">{{ confidence }}%</span>
+          </div>
+          <div style="font-size:.75rem;color:var(--muted);margin-top:.4rem;">XGBoost posterior probability for the predicted class.</div>
+        </div>
+        {% if importances %}
+        <div style="margin-bottom:1.8rem;">
+          <div class="dr-section-title">Feature Importance (XGBoost)</div>
+          <div class="feat-rows">
+            {% for f in importances %}
+            <div class="feat-row">
+              <div class="feat-name">{{ f.name }}</div>
+              <div class="feat-track"><div class="feat-fill" style="width:{{ [f.pct * 2.5, 100] | min }}%"></div></div>
+              <div class="feat-pct">{{ f.pct }}%</div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+        <div style="margin-bottom:1.8rem;">
+          <div class="dr-section-title">Patient Lab Values Submitted</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.5rem;">
+            {% for k, v in inputs.items() %}
+            <div style="background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:.5rem .8rem;">
+              <div style="font-size:.7rem;color:var(--muted);">{{ k }}</div>
+              <div style="font-size:.9rem;font-weight:600;">{{ v }}</div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div>
+          <div class="dr-section-title">Clinical AI Summary</div>
+          <div class="clinical-box">
+            {% for line in summary.split('\n') %}
+              {% if line.strip().endswith(':') and line.strip() in ['Clinical Interpretation:', 'Key Risk Factors:', 'Recommended Next Steps:', 'Important Caveats:'] %}
+                <div class="clinical-section-head">{{ line.strip() }}</div>
+              {% elif line.strip() %}<p>{{ line.strip() }}</p>{% endif %}
+            {% endfor %}
+          </div>
+          <p style="font-size:.72rem;color:var(--muted);margin-top:.75rem;">&#9888;&#65039; AI-generated. For clinical decision support only. Not a substitute for clinical judgment.</p>
+        </div>
+      </div>
+    </div>
+    <script>document.getElementById('resultSection').scrollIntoView({behavior:'smooth',block:'start'});</script>
+    {% endif %}
+  </div>
+</div>
+</body>
+</html>

@@ -1,4 +1,31 @@
-<h1>Some Error Has Occurred</h1>
-{% if message %}
-<p>{{ message }}</p>
-{% endif %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Error — NeuralMed</title>
+  <link rel="stylesheet" href="../static/css/main.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="navbar-brand" href="/">NeuralMed</a>
+  <ul class="navbar-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/services">Services</a></li>
+  </ul>
+</nav>
+
+<div class="error-page">
+  <div>
+    <div class="error-code">500</div>
+    <p class="error-msg">
+      {% if message %}{{ message }}{% else %}An unexpected error has occurred.{% endif %}
+    </p>
+    <a href="/" class="btn btn-primary">Return Home</a>
+    <a href="/services" class="btn btn-outline" style="margin-left:.8rem">View Services</a>
+  </div>
+</div>
+
+</body>
+</html>

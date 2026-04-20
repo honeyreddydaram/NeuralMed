@@ -1,13 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LLM Output</title>
-  </head>
-  <body>
-    <h1>LLM Output</h1>
-    <p>Generated information:</p>
-    <p>{{ answer }}</p>
-  </body>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Health Information — NeuralMed</title>
+  <link rel="stylesheet" href="../static/css/main.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="navbar-brand" href="/">NeuralMed</a>
+  <ul class="navbar-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/services">Services</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+  <div class="section-sm">
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:2rem">
+      <a class="btn btn-ghost btn-sm" onclick="history.back()" style="cursor:pointer">&larr; Back</a>
+      <div>
+        <h1 class="section-title" style="margin-bottom:.2rem">AI Health Information</h1>
+        <span style="display:inline-flex;align-items:center;gap:.4rem;font-size:.8rem;color:var(--primary)">
+          <span style="width:8px;height:8px;background:var(--primary);border-radius:50%;display:inline-block"></span>
+          Powered by Gemini 2.0 Flash
+        </span>
+      </div>
+    </div>
+
+    <div class="llm-card">
+      {% for line in answer.split('\n') %}
+        {% if line.strip() %}
+          <p>{{ line }}</p>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="llm-disclaimer">
+      This information is for general educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider for medical concerns.
+    </div>
+  </div>
+</div>
+
+</body>
 </html>

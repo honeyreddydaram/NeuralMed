@@ -1,72 +1,116 @@
 # NeuralMed — Deep Learning for Deeper Health Insights
 
-## About The Project
+A multi-disease clinical screening platform combining classical ML, deep learning, and LLM-augmented health guidance.  
+**Deliverable 3 — Refined Prototype**
 
-In an era where healthcare demands precision, accessibility, and personalised solutions, this project  emerges as a groundbreaking initiative at the intersection of technology and medicine. This comprehensive project focuses on Multi-Disease Detection, employing a diverse set of algorithms, including traditional machine learning models, deep learning models, transfer learning, and hybrid models such as VGG-19, ResNet50, Random Forest, and Gradient Boosting. Diseases across specific organs, such as the brain, kidney, heart, liver, and lungs, are accurately predicted, and model performance is rigorously assessed through metrics like accuracy, precision, recall, and F1-score. Adding a layer of sophistication, this project integrates with large language models from Open-source libraries like Hugging Face and GenerativeAI from Google, providing personalised information based on individual health profiles. Furthermore, the project extends its impact by incorporating an AI dietitian and food recommender, tailoring dietary recommendations to individual health conditions. Meticulous organisation is ensured through dedicated directory structures, fostering a modular and maintainable framework. Leveraging Machine Learning operations like Dockers, Data Version Control, and MLflow enhances the overall efficiency and reliability of healthcare systems. In essence, this project represents a transformative force that leverages cutting-edge technologies to usher in a new era of healthcare characterised by accuracy, personalization, and efficiency.
+---
 
+## System Overview
 
-## Library Requirements
+NeuralMed is a Flask-based web application providing disease screening across six modalities through two portals:
 
- - Pandas
- - Numpy
- - Scikit-learn
- - Seaborn
- - Matplotlib
- - Flask 
- - DVC
- - Catboost
- - XGBoost
- - MLflow
- - Google.generativeai
- - Streamlit
+- **Patient Portal** — educational predictions with plain-language AI explanations
+- **Doctor Portal** *(new in D3)* — clinical decision support with confidence %, feature importance, reference ranges, and Gemini-powered clinical summaries
 
-## Getting Started
+| Module | Model | D3 Test Acc | 5-Fold CV | AUC |
+|---|---|---|---|---|
+| Diabetes | GaussianNB | 74.7% | 76.0 ± 1.7% | 0.84 |
+| Heart Disease | Naive Bayes | 85.2% | 84.1 ± 4.3% | 0.92 |
+| Parkinson's | Random Forest (depth=10) | 92.3% | 88.2 ± 4.8% | 0.97 |
+| Liver Disease | Logistic Regression | 69.2% | 71.9 ± 3.4% | 0.77 |
+| Breast Cancer | Logistic Regression | 98.2% | 97.4 ± 1.7% | 0.99 |
+| Kidney CT | VGG-16 Transfer Learning | 99.0% | — | — |
 
-This will help you understand how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+---
 
-## Installation Steps
+## Key Improvements: D2 → D3
 
-### Option 1: Installation from GitHub
+| Area | D2 | D3 |
+|---|---|---|
+| Overfitting | RF/DT at 100% (suspected overfit) | max_depth=10 constraint + 5-fold CV |
+| Evaluation | Single train/test split | 5-fold stratified CV + confusion matrices + ROC |
+| UI | Materialize carousel | Complete dark design system (main.css) |
+| Doctor Tools | None | Confidence %, feature importance, reference ranges, PDF export |
+| AI Chatbot | Separate Streamlit app | Embedded on landing page with retry logic |
+| Gemini API | Deprecated `gemini-pro` | Updated to `gemini-2.5-flash-lite` |
+| Error handling | Broad `except` swallowing errors | Typed handlers + graceful fallback messages |
 
-Follow these steps to install and set up the project directly from the GitHub repository:
+---
 
-1. **Clone the Repository**
-   - Open your terminal or command prompt.
-   - Navigate to the directory where you want to install the project.
-   - Run the following command to clone the GitHub repository:
-     ```
-     git clone https://github.com/honeyreddydaram/Deep-Learning-Project.git
-     ```
+## Setup and Running
 
-2. **Create a Virtual Environment** (Optional but recommended)
-   - It's a good practice to create a virtual environment to manage project dependencies. Run the following command:
-     ```
-     conda create -p <Environment_Name> python==<python version> -y
-     ```
+```bash
+git clone https://github.com/honeyreddydaram/Deep-Learning-Project.git
+cd Deep-Learning-Project
+conda create -n neuralmed python=3.11 -y
+conda activate neuralmed
+pip install -r requirements.txt
+echo "GOOGLE_API_KEY=your_key_here" > .env
+dvc pull          # download model artifacts
+python app.py     # opens at http://localhost:5001
+```
 
-3. **Activate the Virtual Environment** (Optional)
-   - Activate the virtual environment based on your operating system:
-       ```
-       conda activate <Environment_Name>/
-       ```
+---
 
-4. **Install Dependencies**
-   - Navigate to the project directory:
-     ```
-     cd [project_directory]
-     ```
-   - Run the following command to install project dependencies:
-     ```
-     pip install -r requirements.txt
-     ```
+## Running the D3 Evaluation Notebook
 
-5. **Run the Project**
-   - Start the project by running the appropriate command.
-     ```
-     python app.py
-     ```
+```bash
+cd Notebook_Experiments
+jupyter notebook D3_Evaluation_Refinements.ipynb
+```
 
-6. **Access the Project**
-   - Open a web browser or the appropriate client to access the project.
+Reproduces: 5-fold CV, confusion matrices, ROC curves, feature importance, D2 vs D3 comparison.
 
+---
+
+## Project Structure
+
+```
+Deep-Learning-Project/
+├── app.py                              # Flask app — patient + doctor portal routes
+├── train_all.py                        # Tabular model training script
+├── train_kidney_model.py               # VGG-16 kidney CNN trainer
+├── requirements.txt
+├── data/                               # Raw datasets (CSV)
+├── Artifacts/                          # Trained .pkl and .h5 files (DVC tracked)
+├── Notebook_Experiments/
+│   ├── D3_Evaluation_Refinements.ipynb # D3 extended evaluation notebook (NEW)
+│   └── ... (9 per-disease notebooks)
+├── src/
+│   ├── utils.py                        # Gemini client, model utilities
+│   └── Multi_Disease_System/           # Per-disease pipeline components
+├── static/css/main.css                 # NeuralMed design system
+├── templates/                          # 21 HTML templates (patient + doctor portal)
+├── results/                            # Evaluation plots + metrics_summary.json
+└── docs/                               # Screenshots and architecture diagrams
+```
+
+---
+
+## Updated Performance Results
+
+See `results/metrics_summary.json` for full per-model metrics.  
+Key plots in `results/`:
+- `cv_all_models.png` — 5-fold CV across all 8 models × 5 diseases
+- `confusion_matrices.png` — best model per disease
+- `roc_curves.png` — ROC + AUC per disease
+- `d2_vs_d3_comparison.png` — D2 vs D3 accuracy side-by-side
+- `feature_importance.png` — top-10 feature importances
+- `cv_boxplots.png` — model stability analysis
+
+---
+
+## Known Issues
+
+- **Brain tumor + lung** routes show placeholder messages (no trained artifacts deployed)
+- **Kidney** requires TensorFlow (Python 3.10–3.12); inference uses subprocess isolation
+- **Gemini API key** required for chatbot, doctor summaries, and educational LLM routes
+- **Not for clinical use** — all outputs are decision-support aids only, not diagnoses
+
+---
+
+## Contact
+
+**Honey Reddy Daram**  
+Department of Artificial Intelligence Systems, University of Florida  
+honeyreddydaram@ufl.edu

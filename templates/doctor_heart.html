@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heart Disease — Doctor Portal | NeuralMed</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+<nav class="navbar">
+  <a href="/" class="navbar-brand">NeuralMed</a>
+  <ul class="navbar-links">
+    <li><a href="/doctor">Doctor Portal</a></li>
+    <li><a href="/heart">Patient View</a></li>
+  </ul>
+</nav>
+
+<div class="doctor-form-page">
+  <div class="form-card">
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.3rem;">
+      <span class="doctor-badge">&#9877; Doctor Portal</span>
+    </div>
+    <h1>Heart Disease Assessment</h1>
+    <p class="subtitle">13 cardiovascular markers &middot; Logistic Regression &middot; Coefficient-based feature attribution</p>
+
+    {% if error %}
+    <div class="result-card" style="background:rgba(255,79,109,.1);border-color:rgba(255,79,109,.4);margin-bottom:1.5rem;">
+      <strong style="color:#ff4f6d;">Error:</strong> {{ error }}
+    </div>
+    {% endif %}
+
+    <form method="POST" action="/doctor/heart">
+      <div class="dr-two-col">
+        <div class="form-group">
+          <label class="form-label">Age (years)</label>
+          <input type="number" name="age" class="form-input" min="1" max="120"
+                 value="{{ inputs['Age (years)'] if inputs else '' }}" required>
+          <span class="ref-hint">Dataset range: <strong>29–77</strong> | Risk increases with age</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Sex</label>
+          <select name="sex" class="form-input">
+            <option value="1" {% if inputs and inputs['Sex']=='Male' %}selected{% endif %}>Male (1)</option>
+            <option value="0" {% if inputs and inputs['Sex']=='Female' %}selected{% endif %}>Female (0)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Chest Pain Type</label>
+          <select name="cp" class="form-input">
+            <option value="0" {% if inputs and 'Typical' in inputs.get('Chest Pain Type','') %}selected{% endif %}>0 — Typical Angina</option>
+            <option value="1" {% if inputs and 'Atypical' in inputs.get('Chest Pain Type','') %}selected{% endif %}>1 — Atypical Angina</option>
+            <option value="2" {% if inputs and 'Non-Anginal' in inputs.get('Chest Pain Type','') %}selected{% endif %}>2 — Non-Anginal Pain</option>
+            <option value="3" {% if inputs and 'Asymptomatic' in inputs.get('Chest Pain Type','') %}selected{% endif %}>3 — Asymptomatic</option>
+          </select>
+          <span class="ref-hint">Asymptomatic (3) often correlates with higher CAD risk</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Resting Blood Pressure (mmHg)</label>
+          <input type="number" name="trestbps" class="form-input" min="80" max="250"
+                 value="{{ inputs['Resting BP (mmHg)'] if inputs else '' }}" required>
+          <span class="ref-hint">Normal: <strong>&lt;120</strong> | Elevated: 120–129 | Stage 1 HTN: 130–139</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Serum Cholesterol (mg/dL)</label>
+          <input type="number" name="chol" class="form-input" min="100" max="600"
+                 value="{{ inputs['Cholesterol (mg/dL)'] if inputs else '' }}" required>
+          <span class="ref-hint">Optimal: <strong>&lt;200</strong> | Borderline: 200–239 | High: ≥240</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Fasting Blood Sugar &gt;120 mg/dL</label>
+          <select name="fbs" class="form-input">
+            <option value="0" {% if inputs and inputs.get('Fasting BS >120 mg/dL')=='No' %}selected{% endif %}>No (0) — FBS ≤120</option>
+            <option value="1" {% if inputs and inputs.get('Fasting BS >120 mg/dL')=='Yes' %}selected{% endif %}>Yes (1) — FBS &gt;120</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Resting ECG Results</label>
+          <select name="restecg" class="form-input">
+            <option value="0" {% if inputs and 'Normal' in inputs.get('Resting ECG','') %}selected{% endif %}>0 — Normal</option>
+            <option value="1" {% if inputs and 'ST-T' in inputs.get('Resting ECG','') %}selected{% endif %}>1 — ST-T Wave Abnormality</option>
+            <option value="2" {% if inputs and 'LVH' in inputs.get('Resting ECG','') %}selected{% endif %}>2 — Left Ventricular Hypertrophy</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Maximum Heart Rate Achieved (bpm)</label>
+          <input type="number" name="thalach" class="form-input" min="60" max="250"
+                 value="{{ inputs['Max Heart Rate (bpm)'] if inputs else '' }}" required>
+          <span class="ref-hint">Age-predicted max: <strong>220 − age</strong> | Normal resting: 60–100 bpm</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Exercise-Induced Angina</label>
+          <select name="exang" class="form-input">
+            <option value="0" {% if inputs and inputs.get('Exercise-Induced Angina')=='No' %}selected{% endif %}>No (0)</option>
+            <option value="1" {% if inputs and inputs.get('Exercise-Induced Angina')=='Yes' %}selected{% endif %}>Yes (1)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">ST Depression (oldpeak)</label>
+          <input type="number" name="oldpeak" class="form-input" min="0" max="10" step="0.1"
+                 value="{{ inputs['ST Depression'] if inputs else '' }}" required>
+          <span class="ref-hint">Normal: <strong>0.0</strong> | Significant ischemia: ≥2.0 mm</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Slope of Peak Exercise ST</label>
+          <select name="slope" class="form-input">
+            <option value="0" {% if inputs and 'Upsloping' in inputs.get('ST Slope','') %}selected{% endif %}>0 — Upsloping (favorable)</option>
+            <option value="1" {% if inputs and 'Flat' in inputs.get('ST Slope','') %}selected{% endif %}>1 — Flat</option>
+            <option value="2" {% if inputs and 'Downsloping' in inputs.get('ST Slope','') %}selected{% endif %}>2 — Downsloping (concerning)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Number of Major Vessels (0–4) by Fluoroscopy</label>
+          <input type="number" name="ca" class="form-input" min="0" max="4"
+                 value="{{ inputs['Major Vessels (0–4)'] if inputs else '' }}" required>
+          <span class="ref-hint">0 = no obstruction | Higher = more significant CAD</span>
+        </div>
+      </div>
+      <div class="form-group" style="margin-top:1rem;">
+        <label class="form-label">Thalassemia</label>
+        <select name="thal" class="form-input">
+          <option value="0" {% if inputs and 'Normal' in inputs.get('Thalassemia','') %}selected{% endif %}>0 — Normal</option>
+          <option value="1" {% if inputs and 'Fixed' in inputs.get('Thalassemia','') %}selected{% endif %}>1 — Fixed Defect</option>
+          <option value="2" {% if inputs and 'Reversible' in inputs.get('Thalassemia','') %}selected{% endif %}>2 — Reversible Defect (higher risk)</option>
+        </select>
+      </div>
+      <button type="submit" class="cta-btn" style="margin-top:1.8rem;width:100%;">
+        Run Clinical Assessment
+      </button>
+    </form>
+
+    {% if prediction is defined and prediction is not none %}
+    {% set conf_class = 'high' if confidence >= 75 else ('medium' if confidence >= 55 else 'low') %}
+    <div class="dr-result" id="resultSection">
+      <div class="dr-result-header {{ 'positive' if positive else 'negative' }}">
+        <div>
+          <div style="font-size:.75rem;color:var(--muted);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.06em;">Prediction Result</div>
+          <div class="dr-prediction-label">{{ prediction }}</div>
+        </div>
+        <button class="print-btn" onclick="window.print()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+            <rect x="6" y="14" width="12" height="8"/>
+          </svg>
+          Print / Save PDF
+        </button>
+      </div>
+      <div class="dr-result-body">
+        <div style="margin-bottom:1.8rem;">
+          <div class="dr-section-title">Model Confidence</div>
+          <div class="confidence-track">
+            <div class="confidence-fill {{ conf_class }}" style="width:{{ confidence }}%"></div>
+            <span class="confidence-label">{{ confidence }}%</span>
+          </div>
+          <div style="font-size:.75rem;color:var(--muted);margin-top:.4rem;">Logistic Regression probability score. Coefficients reflect feature direction and magnitude.</div>
+        </div>
+        {% if importances %}
+        <div style="margin-bottom:1.8rem;">
+          <div class="dr-section-title">Feature Attribution (Absolute Coefficients)</div>
+          <div class="feat-rows">
+            {% for f in importances %}
+            <div class="feat-row">
+              <div class="feat-name">{{ f.name }}</div>
+              <div class="feat-track"><div class="feat-fill" style="width:{{ [f.pct * 2.5, 100] | min }}%"></div></div>
+              <div class="feat-pct">{{ f.pct }}%</div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+        <div style="margin-bottom:1.8rem;">
+          <div class="dr-section-title">Patient Values Submitted</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.5rem;">
+            {% for k, v in inputs.items() %}
+            <div style="background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:.5rem .8rem;">
+              <div style="font-size:.7rem;color:var(--muted);">{{ k }}</div>
+              <div style="font-size:.9rem;font-weight:600;">{{ v }}</div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div>
+          <div class="dr-section-title">Clinical AI Summary</div>
+          <div class="clinical-box">
+            {% for line in summary.split('\n') %}
+              {% if line.strip().endswith(':') and line.strip() in ['Clinical Interpretation:', 'Key Risk Factors:', 'Recommended Next Steps:', 'Important Caveats:'] %}
+                <div class="clinical-section-head">{{ line.strip() }}</div>
+              {% elif line.strip() %}<p>{{ line.strip() }}</p>{% endif %}
+            {% endfor %}
+          </div>
+          <p style="font-size:.72rem;color:var(--muted);margin-top:.75rem;">&#9888;&#65039; AI-generated. For clinical decision support only. Not a substitute for clinical judgment.</p>
+        </div>
+      </div>
+    </div>
+    <script>document.getElementById('resultSection').scrollIntoView({behavior:'smooth',block:'start'});</script>
+    {% endif %}
+  </div>
+</div>
+</body>
+</html>

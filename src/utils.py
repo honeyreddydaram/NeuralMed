@@ -13,12 +13,18 @@ import pandas as pd
 from src.logger import logging
 from sklearn.metrics import accuracy_score
 from src.exception import customexception
-import google.generativeai as genai
+from google import genai as _genai
 
 _api_key = os.getenv("GOOGLE_API_KEY") or os.getenv("API_KEY")
-genai.configure(api_key=_api_key)
-vision_model = genai.GenerativeModel('gemini-pro-vision') # Initialize Gemini Pro Vision Model
-text_model = genai.GenerativeModel('gemini-pro')
+_genai_client = _genai.Client(api_key=_api_key)
+_MODEL = "gemini-2.5-flash-lite"
+
+class _ModelWrapper:
+    def generate_content(self, prompt):
+        return _genai_client.models.generate_content(model=_MODEL, contents=prompt)
+
+vision_model = _ModelWrapper()
+text_model = _ModelWrapper()
 
 def save_object(file_path, obj):
     try:

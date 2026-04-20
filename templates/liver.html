@@ -1,80 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Liver Prediction</title>
-  </head>
-  <body>
-    <h1>Liver Prediction</h1>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Liver Disease Prediction — NeuralMed</title>
+  <link rel="stylesheet" href="../static/css/main.css"/>
+</head>
+<body>
 
-    {% if not prediction %}
-    <!-- Form for input -->
-    <form action="/liver" method="post">
-      <label for="age">Age:</label>
-      <input type="text" id="age" name="age" required /><br /><br />
-      <label for="gender">Gender (0 for Female, 1 for Male):</label>
-      <input type="text" id="gender" name="gender" required /><br /><br />
-      <label for="total_bilirubin">Total Bilirubin:</label>
-      <input
-        type="text"
-        id="total_bilirubin"
-        name="total_bilirubin"
-        required
-      /><br /><br />
-      <label for="direct_bilirubin">Direct Bilirubin:</label>
-      <input
-        type="text"
-        id="direct_bilirubin"
-        name="direct_bilirubin"
-        required
-      /><br /><br />
-      <label for="alkaline_phosphotase">Alkaline Phosphotase:</label>
-      <input
-        type="text"
-        id="alkaline_phosphotase"
-        name="alkaline_phosphotase"
-        required
-      /><br /><br />
-      <label for="alamine_aminotransferase">Alamine Aminotransferase:</label>
-      <input
-        type="text"
-        id="alamine_aminotransferase"
-        name="alamine_aminotransferase"
-        required
-      /><br /><br />
-      <label for="aspartate_aminotransferase"
-        >Aspartate Aminotransferase:</label
-      >
-      <input
-        type="text"
-        id="aspartate_aminotransferase"
-        name="aspartate_aminotransferase"
-        required
-      /><br /><br />
-      <label for="total_proteins">Total Proteins:</label>
-      <input
-        type="text"
-        id="total_proteins"
-        name="total_proteins"
-        required
-      /><br /><br />
-      <label for="albumin">Albumin:</label>
-      <input type="text" id="albumin" name="albumin" required /><br /><br />
-      <label for="albumin_globulin_ratio">Albumin Globulin Ratio:</label>
-      <input
-        type="text"
-        id="albumin_globulin_ratio"
-        name="albumin_globulin_ratio"
-        required
-      /><br /><br />
+<nav class="navbar">
+  <a class="navbar-brand" href="/">NeuralMed</a>
+  <ul class="navbar-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/services">Services</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
+</nav>
 
-      <button type="submit">Submit</button>
-    </form>
-    {% endif %} {% if prediction %}
-    <!-- Display prediction result -->
-    <h2>Prediction Result:</h2>
-    <p>Prediction: {{ prediction }}</p>
-    {% endif %}
-  </body>
+<div class="form-page" style="--form-bg: url(../static/images/Liver_SH4.jpg)">
+  <div class="form-wrap">
+    <div class="form-header">
+      <a href="/services" class="btn btn-ghost btn-sm" style="margin-bottom:1.2rem">&larr; Back to Services</a>
+      <h1>Liver Disease Prediction</h1>
+      <p>Enter the 10 liver function test markers below for an ML-based liver disease assessment.</p>
+    </div>
+
+    <div class="form-card">
+      <form action="/liver" method="post">
+        <div class="form-grid">
+          <div class="field">
+            <label for="age">Age (years)</label>
+            <input type="number" id="age" name="age" min="1" required placeholder="e.g. 45"/>
+          </div>
+          <div class="field">
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender" required>
+              <option value="0">Female</option>
+              <option value="1">Male</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="total_bilirubin">Total Bilirubin (mg/dL)</label>
+            <input type="number" id="total_bilirubin" name="total_bilirubin" step="any" min="0" required placeholder="e.g. 0.9"/>
+          </div>
+          <div class="field">
+            <label for="direct_bilirubin">Direct Bilirubin (mg/dL)</label>
+            <input type="number" id="direct_bilirubin" name="direct_bilirubin" step="any" min="0" required placeholder="e.g. 0.2"/>
+          </div>
+          <div class="field">
+            <label for="alkaline_phosphotase">Alkaline Phosphotase (IU/L)</label>
+            <input type="number" id="alkaline_phosphotase" name="alkaline_phosphotase" step="any" min="0" required placeholder="e.g. 200"/>
+          </div>
+          <div class="field">
+            <label for="alamine_aminotransferase">Alamine Aminotransferase (IU/L)</label>
+            <input type="number" id="alamine_aminotransferase" name="alamine_aminotransferase" step="any" min="0" required placeholder="e.g. 20"/>
+          </div>
+          <div class="field">
+            <label for="aspartate_aminotransferase">Aspartate Aminotransferase (IU/L)</label>
+            <input type="number" id="aspartate_aminotransferase" name="aspartate_aminotransferase" step="any" min="0" required placeholder="e.g. 25"/>
+          </div>
+          <div class="field">
+            <label for="total_proteins">Total Proteins (g/dL)</label>
+            <input type="number" id="total_proteins" name="total_proteins" step="any" min="0" required placeholder="e.g. 7.0"/>
+          </div>
+          <div class="field">
+            <label for="albumin">Albumin (g/dL)</label>
+            <input type="number" id="albumin" name="albumin" step="any" min="0" required placeholder="e.g. 3.5"/>
+          </div>
+          <div class="field">
+            <label for="albumin_globulin_ratio">Albumin/Globulin Ratio</label>
+            <input type="number" id="albumin_globulin_ratio" name="albumin_globulin_ratio" step="any" min="0" required placeholder="e.g. 1.0"/>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Run Prediction</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="result-card">
+      <h3>Prediction Result</h3>
+      {% if prediction %}
+        {% if prediction == 'Positive' %}
+          <div class="result-badge result-positive">Liver Disease Detected</div>
+        {% else %}
+          <div class="result-badge result-negative">No Liver Disease Detected</div>
+        {% endif %}
+      {% else %}
+        <p style="color:var(--muted)">Submit the form above to see results.</p>
+      {% endif %}
+      <div class="result-actions">
+        <button class="btn btn-outline" id="redirectmore" data-llm-topic="liver">AI Health Info</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../static/js/input.js"></script>
+</body>
 </html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Breast Cancer — Doctor Portal | NeuralMed</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+<nav class="navbar">
+  <a href="/" class="navbar-brand">NeuralMed</a>
+  <ul class="navbar-links">
+    <li><a href="/doctor">Doctor Portal</a></li>
+    <li><a href="/bcancer">Patient View</a></li>
+  </ul>
+</nav>
+
+<div class="doctor-form-page">
+  <div class="form-card">
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.3rem;">
+      <span class="doctor-badge">&#9877; Doctor Portal</span>
+    </div>
+    <h1>Breast Cancer Assessment</h1>
+    <p class="subtitle">22 FNA measurements &middot; Random Forest model &middot; Top-10 feature importance</p>
+
+    {% if error %}
+    <div class="result-card" style="background:rgba(255,79,109,.1);border-color:rgba(255,79,109,.4);margin-bottom:1.5rem;">
+      <strong style="color:#ff4f6d;">Error:</strong> {{ error }}
+    </div>
+    {% endif %}
+
+    <div style="background:rgba(0,229,255,.05);border:1px solid var(--border);border-radius:var(--r);padding:.9rem 1.2rem;margin-bottom:1.5rem;">
+      <p style="font-size:.82rem;color:var(--muted);line-height:1.6;">
+        Values from fine needle aspirate (FNA) of breast mass, computed from digitized images.
+        <strong style="color:var(--primary);">Typical benign:</strong> lower texture, smoothness, compactness.
+        <strong style="color:#ff4f6d;">Typical malignant:</strong> higher values across most measures.
+      </p>
+    </div>
+
+    <form method="POST" action="/doctor/bcancer">
+      <!-- Mean Values -->
+      <div style="margin-bottom:1.2rem;">
+        <div class="dr-section-title">Mean Values (averaged across all nuclei in image)</div>
+        <div class="dr-three-col">
+          <div class="form-group">
+            <label class="form-label">Mean Texture</label>
+            <input type="number" name="texture_mean" class="form-input" step="0.0001"
+                   value="{{ inputs['Mean Texture'] if inputs else '' }}" required>
+            <span class="ref-hint">Benign: <strong>~17.9</strong> | Malignant: ~21.6</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mean Smoothness</label>
+            <input type="number" name="smoothness_mean" class="form-input" step="0.00001"
+                   value="{{ inputs['Mean Smoothness'] if inputs else '' }}" required>
+            <span class="ref-hint">Benign: <strong>~0.083</strong> | Malignant: ~0.103</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mean Compactness</label>
+            <input type="number" name="compactness_mean" class="form-input" step="0.00001"
+                   value="{{ inputs['Mean Compactness'] if inputs else '' }}" required>
+            <span class="ref-hint">Benign: <strong>~0.080</strong> | Malignant: ~0.145</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mean Concave Points</label>
+            <input type="number" name="concave_points_mean" class="form-input" step="0.00001"
+                   value="{{ inputs['Mean Concave Points'] if inputs else '' }}" required>
+            <span class="ref-hint">Benign: <strong>~0.026</strong> | Malignant: ~0.088</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mean Symmetry</label>
+            <input type="number" name="symmetry_mean" class="form-input" step="0.00001"
+                   value="{{ inputs['Mean Symmetry'] if inputs else '' }}" required>
+            <span class="ref-hint">Benign: <strong>~0.174</strong> | Malignant: ~0.193</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mean Fractal Dimension</label>
+            <input type="number" name="fractal_dimension_mean" class="form-input" step="0.00001"
+                   value="{{ inputs['Mean Fractal Dimension'] if inputs else '' }}" required>
+            <span class="ref-hint">Range: <strong>0.05–0.10</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Standard Error -->
+      <div style="margin-bottom:1.2rem;">
+        <div class="dr-section-title">Standard Error Values</div>
+        <div class="dr-two-col">
+          <div class="form-group">
+            <label class="form-label">SE Texture</label>
+            <input type="number" name="texture_se" class="form-input" step="0.0001"
+                   value="{{ inputs['SE Texture'] if inputs else '' }}" required>
+            <span class="ref-hint">Typical range: <strong>0.36–4.9</strong></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">SE Area (mm²)</label>
+            <input type="number" name="area_se" class="form-input" step="0.01"
+                   value="{{ inputs['SE Area'] if inputs else '' }}" required>
+            <span class="ref-hint">Typical range: <strong>6.8–542</strong></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">SE Smoothness</label>
+            <input type="number" name="smoothness_se" class="form-input" step="0.00001"
+                   value="{{ inputs['SE Smoothness'] if inputs else '' }}" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">SE Compactness</label>
+            <input type="number" name="compactness_se" class="form-input" step="0.00001"
+                   value="{{ inputs['SE Compactness'] if inputs else '' }}" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">SE Concavity</label>
+            <input type="number" name="concavity_se" class="form-input" step="0.00001"
+                   value="{{ inputs['SE Concavity'] if inputs else '' }}" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">SE Concave Points</label>
+            <input type="number" name="concave_points_se" class="form-input" step="0.00001"
+                   value="{{ inputs['SE Concave Points'] if inputs else '' }}" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">SE Symmetry</label>
+            <input type="number" name="symmetry_se" class="form-input" step="0.00001"
+                   value="{{ inputs['SE Symmetry'] if inputs else '' }}" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">SE Fractal Dimension</label>
+            <input type="number" name="fractal_dimension_se" class="form-input" step="0.00001"
+                   value="{{ inputs['SE Fractal Dimension'] if inputs else '' }}" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Worst Values -->
+      <div style="margin-bottom:1.2rem;">
+        <div class="dr-section-title">Worst Values (largest mean of the three most extreme nuclei)</div>
+        <div class="dr-two-col">
+          <div class="form-group">
+            <label class="form-label">Worst Texture</label>
+            <input type="number" name="texture_worst" class="form-input" step="0.0001"
+                   value="{{ inputs['Worst Texture'] if inputs else '' }}" required>
+            <span class="ref-hint">Benign: <strong>~25.4</strong> | Malignant: ~29.3</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Worst Area (mm²)</label>
+            <input type="number" name="area_worst" class="form-input" step="0.1"
+                   value="{{ inputs['Worst Area'] if inputs else '' }}" required>
+            <span class="ref-hint">Benign: <strong>~558</strong> | Malignant: ~1422</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Worst Smoothness</label>
+            <input type="number" name="smoothness_worst" class="form-input" step="0.00001"
+                   value="{{ inputs['Worst Smoothness'] if inputs else '' }}" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Worst Compactness</label>
+            <input type="number" name="compactness_worst" class="form-input" step="0.00001"
+                   value="{{ inputs['Worst Compactness'] if inputs else '' }}" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Worst Concavity</label>
+            <input type="number" name="concavity_worst" class="form-input" step="0.00001"
+                   value="{{ inputs['Worst Concavity'] if inputs else '' }}" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Worst Concave Points</label>
+            <input type="number" name="concave_points_worst" class="form-input" step="0.00001"
+                   value="{{ inputs['Worst Concave Points'] if inputs else '' }}" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Worst Symmetry</label>
+            <input type="number" name="symmetry_worst" class="form-input" step="0.00001"
+                   value="{{ inputs['Worst Symmetry'] if inputs else '' }}" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Worst Fractal Dimension</label>
+            <input type="number" name="fractal_dimension_worst" class="form-input" step="0.00001"
+                   value="{{ inputs['Worst Fractal Dimension'] if inputs else '' }}" required>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="cta-btn" style="margin-top:1.8rem;width:100%;">
+        Run Clinical Assessment
+      </button>
+    </form>
+
+    {% if prediction is defined and prediction is not none %}
+    {% set conf_class = 'high' if confidence >= 75 else ('medium' if confidence >= 55 else 'low') %}
+    <div class="dr-result" id="resultSection">
+      <div class="dr-result-header {{ 'positive' if positive else 'negative' }}">
+        <div>
+          <div style="font-size:.75rem;color:var(--muted);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.06em;">Prediction Result</div>
+          <div class="dr-prediction-label">{{ prediction }}</div>
+        </div>
+        <button class="print-btn" onclick="window.print()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+            <rect x="6" y="14" width="12" height="8"/>
+          </svg>
+          Print / Save PDF
+        </button>
+      </div>
+      <div class="dr-result-body">
+        <div style="margin-bottom:1.8rem;">
+          <div class="dr-section-title">Model Confidence</div>
+          <div class="confidence-track">
+            <div class="confidence-fill {{ conf_class }}" style="width:{{ confidence }}%"></div>
+            <span class="confidence-label">{{ confidence }}%</span>
+          </div>
+          <div style="font-size:.75rem;color:var(--muted);margin-top:.4rem;">Random Forest class probability. Shows top 10 of 22 features.</div>
+        </div>
+        {% if importances %}
+        <div style="margin-bottom:1.8rem;">
+          <div class="dr-section-title">Top Feature Importance (Random Forest — Top 10 of 22)</div>
+          <div class="feat-rows">
+            {% for f in importances %}
+            <div class="feat-row">
+              <div class="feat-name">{{ f.name }}</div>
+              <div class="feat-track"><div class="feat-fill" style="width:{{ [f.pct * 2.5, 100] | min }}%"></div></div>
+              <div class="feat-pct">{{ f.pct }}%</div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+        <div style="margin-bottom:1.8rem;">
+          <div class="dr-section-title">FNA Measurements Submitted</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.5rem;max-height:280px;overflow-y:auto;">
+            {% for k, v in inputs.items() %}
+            <div style="background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:.5rem .8rem;">
+              <div style="font-size:.7rem;color:var(--muted);">{{ k }}</div>
+              <div style="font-size:.9rem;font-weight:600;">{{ v }}</div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div>
+          <div class="dr-section-title">Clinical AI Summary</div>
+          <div class="clinical-box">
+            {% for line in summary.split('\n') %}
+              {% if line.strip().endswith(':') and line.strip() in ['Clinical Interpretation:', 'Key Risk Factors:', 'Recommended Next Steps:', 'Important Caveats:'] %}
+                <div class="clinical-section-head">{{ line.strip() }}</div>
+              {% elif line.strip() %}<p>{{ line.strip() }}</p>{% endif %}
+            {% endfor %}
+          </div>
+          <p style="font-size:.72rem;color:var(--muted);margin-top:.75rem;">&#9888;&#65039; AI-generated. For clinical decision support only. Not a substitute for clinical judgment.</p>
+        </div>
+      </div>
+    </div>
+    <script>document.getElementById('resultSection').scrollIntoView({behavior:'smooth',block:'start'});</script>
+    {% endif %}
+  </div>
+</div>
+</body>
+</html>

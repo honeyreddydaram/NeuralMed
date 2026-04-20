@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diabetes — Doctor Portal | NeuralMed</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+<nav class="navbar">
+  <a href="/" class="navbar-brand">NeuralMed</a>
+  <ul class="navbar-links">
+    <li><a href="/doctor">Doctor Portal</a></li>
+    <li><a href="/diabetes">Patient View</a></li>
+  </ul>
+</nav>
+
+<div class="doctor-form-page">
+  <div class="form-card">
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.3rem;">
+      <span class="doctor-badge">&#9877; Doctor Portal</span>
+    </div>
+    <h1>Diabetes Mellitus Assessment</h1>
+    <p class="subtitle">Clinical inputs with reference ranges &middot; GaussianNB model &middot; Confidence scoring</p>
+
+    {% if error %}
+    <div class="result-card" style="background:rgba(255,79,109,.1);border-color:rgba(255,79,109,.4);margin-bottom:1.5rem;">
+      <strong style="color:#ff4f6d;">Error:</strong> {{ error }}
+    </div>
+    {% endif %}
+
+    <form method="POST" action="/doctor/diabetes">
+      <div class="dr-two-col">
+        <div class="form-group">
+          <label class="form-label">Pregnancies</label>
+          <input type="number" name="pregnancies" class="form-input" min="0" max="20"
+                 value="{{ inputs['Pregnancies'] if inputs else '' }}" required>
+          <span class="ref-hint">Normal: <strong>0–6</strong> | Dataset range: 0–17</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Plasma Glucose (mg/dL)</label>
+          <input type="number" name="Glucose" class="form-input" min="0" max="300" step="0.1"
+                 value="{{ inputs['Glucose (mg/dL)'] if inputs else '' }}" required>
+          <span class="ref-hint">Normal fasting: <strong>70–99</strong> | Prediabetic: 100–125 | Diabetic: ≥126</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Diastolic Blood Pressure (mmHg)</label>
+          <input type="number" name="BloodPressure" class="form-input" min="0" max="150"
+                 value="{{ inputs['Blood Pressure (mmHg)'] if inputs else '' }}" required>
+          <span class="ref-hint">Normal: <strong>&lt;80</strong> | Stage 1 HTN: 80–89 | Stage 2: ≥90</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Triceps Skin Thickness (mm)</label>
+          <input type="number" name="skin_thickness" class="form-input" min="0" max="100"
+                 value="{{ inputs['Skin Thickness (mm)'] if inputs else '' }}" required>
+          <span class="ref-hint">Typical: <strong>10–40 mm</strong> | Elevated adiposity: &gt;40</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">2-Hour Serum Insulin (μU/mL)</label>
+          <input type="number" name="insulin" class="form-input" min="0" max="900" step="0.1"
+                 value="{{ inputs['Insulin (μU/mL)'] if inputs else '' }}" required>
+          <span class="ref-hint">Normal fasting: <strong>2–25 μU/mL</strong> | Elevated: &gt;25</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">BMI (kg/m²)</label>
+          <input type="number" name="BMI" class="form-input" min="0" max="70" step="0.1"
+                 value="{{ inputs['BMI'] if inputs else '' }}" required>
+          <span class="ref-hint">Normal: <strong>18.5–24.9</strong> | Overweight: 25–29.9 | Obese: ≥30</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Diabetes Pedigree Function</label>
+          <input type="number" name="DiabetesPedigreeFunction" class="form-input" min="0" max="3" step="0.001"
+                 value="{{ inputs['Diabetes Pedigree Function'] if inputs else '' }}" required>
+          <span class="ref-hint">Low genetic risk: <strong>&lt;0.5</strong> | High: &gt;1.0 | Range: 0.08–2.42</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Age (years)</label>
+          <input type="number" name="Age" class="form-input" min="1" max="120"
+                 value="{{ inputs['Age (years)'] if inputs else '' }}" required>
+          <span class="ref-hint">Dataset range: 21–81 years</span>
+        </div>
+      </div>
+
+      <button type="submit" class="cta-btn" style="margin-top:1.8rem;width:100%;">
+        Run Clinical Assessment
+      </button>
+    </form>
+
+    {% if prediction is defined and prediction is not none %}
+    {% set conf_class = 'high' if confidence >= 75 else ('medium' if confidence >= 55 else 'low') %}
+    <div class="dr-result" id="resultSection">
+      <div class="dr-result-header {{ 'positive' if positive else 'negative' }}">
+        <div>
+          <div style="font-size:.75rem;color:var(--muted);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.06em;">Prediction Result</div>
+          <div class="dr-prediction-label">{{ prediction }}</div>
+        </div>
+        <button class="print-btn" onclick="window.print()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+            <rect x="6" y="14" width="12" height="8"/>
+          </svg>
+          Print / Save PDF
+        </button>
+      </div>
+
+      <div class="dr-result-body">
+        <!-- Confidence -->
+        <div style="margin-bottom:1.8rem;">
+          <div class="dr-section-title">Model Confidence</div>
+          <div class="confidence-track">
+            <div class="confidence-fill {{ conf_class }}" style="width:{{ confidence }}%"></div>
+            <span class="confidence-label">{{ confidence }}%</span>
+          </div>
+          <div style="font-size:.75rem;color:var(--muted);margin-top:.4rem;">
+            Based on GaussianNB posterior probability. High: ≥75% | Medium: 55–74% | Low: &lt;55%
+          </div>
+        </div>
+
+        <!-- Feature Importance -->
+        {% if importances %}
+        <div style="margin-bottom:1.8rem;">
+          <div class="dr-section-title">Feature Contribution (Model Coefficients)</div>
+          <div class="feat-rows">
+            {% for f in importances %}
+            <div class="feat-row">
+              <div class="feat-name">{{ f.name }}</div>
+              <div class="feat-track">
+                <div class="feat-fill" style="width:{{ [f.pct * 2.5, 100] | min }}%"></div>
+              </div>
+              <div class="feat-pct">{{ f.pct }}%</div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Input Summary -->
+        <div style="margin-bottom:1.8rem;">
+          <div class="dr-section-title">Patient Values Submitted</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.5rem;">
+            {% for k, v in inputs.items() %}
+            <div style="background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:.5rem .8rem;">
+              <div style="font-size:.7rem;color:var(--muted);">{{ k }}</div>
+              <div style="font-size:.9rem;font-weight:600;">{{ v }}</div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Clinical Summary -->
+        <div>
+          <div class="dr-section-title">Clinical AI Summary</div>
+          <div class="clinical-box">
+            {% set sections = summary.split('\n') %}
+            {% for line in sections %}
+              {% if line.strip().endswith(':') and line.strip() in ['Clinical Interpretation:', 'Key Risk Factors:', 'Recommended Next Steps:', 'Important Caveats:'] %}
+                <div class="clinical-section-head">{{ line.strip() }}</div>
+              {% elif line.strip() %}
+                <p>{{ line.strip() }}</p>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <p style="font-size:.72rem;color:var(--muted);margin-top:.75rem;">
+            &#9888;&#65039; AI-generated summary for clinical decision support only. Not a substitute for clinical judgment. Generated by Gemini 2.5 Flash.
+          </p>
+        </div>
+      </div>
+    </div>
+    <script>document.getElementById('resultSection').scrollIntoView({behavior:'smooth',block:'start'});</script>
+    {% endif %}
+  </div>
+</div>
+</body>
+</html>

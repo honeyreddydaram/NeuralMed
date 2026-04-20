@@ -1,197 +1,402 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../static/css/landingstyle.css" />
-    <link rel="stylesheet" href="../static/css/landingstyle1.css" />
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NeuralMed — AI Health Platform</title>
+  <link rel="stylesheet" href="../static/css/main.css"/>
+</head>
+<body>
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    />
+<!-- Navbar -->
+<nav class="navbar">
+  <a class="navbar-brand" href="/">NeuralMed</a>
+  <ul class="navbar-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
 
-    <title>Home</title>
-  </head>
-  <body>
-    <div class="topnav" id="myTopnav">
-      <a href="/">Home</a>
-
-      <a href="/services">Services</a>
-
-      <a href="/#about">About</a>
-
-      <a href="/#contact">Contact</a>
-      <i class="fa fa-user-md logo"></i>
-      <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-        <i class="fa fa-bars" aria-hidden="true" id="bars"></i>
-      </a>
-    </div>
-    <div class="slider">
-      <div class="myslide fade">
-        <div class="txt">
-          <h1>OPEN HEALTH</h1>
-          <p>A COMPREHENSIVE<br />AI TOOL FOR REMOTE HEALTH CARE</p>
-        </div>
-        <img
-          src="../static/images/OpenHealth_SH1.jpeg"
-          style="width: 100%; height: 100%"
-        />
-      </div>
-
-      <div class="myslide fade">
-        <div class="txt">
-          <h1>Brain Cancer Detection</h1>
-          <p>Unleashing Hope<br />Early Detection, Brighter Futures.</p>
-        </div>
-        <img
-          src="../static/images/Brain_SH2.jpg"
-          style="width: 100%; height: 100%"
-        />
-      </div>
-
-      <div class="myslide fade">
-        <div class="txt">
-          <h1>Heart Disease Prediction</h1>
-          <p>HeartGuard<br />Predict your heart, right from the start</p>
-        </div>
-        <img
-          src="../static/images/Heart_SH3.jpeg"
-          style="width: 100%; height: 100%"
-        />
-      </div>
-
-      <div class="myslide fade">
-        <div class="txt">
-          <h1>Liver Disease Prediction</h1>
-          <p>
-            Unveiling the silent threat<br />Safeguarding Lives through Liver
-            Disease Prediction.
-          </p>
-        </div>
-        <img
-          src="../static/images/Liver_SH4.jpg"
-          style="width: 100%; height: 100%"
-        />
-      </div>
-
-      <div class="myslide fade">
-        <div class="txt">
-          <h1>Lung Disease Prediction</h1>
-          <p>Breathe Ahead<br />Resist the lung disease before it starts</p>
-        </div>
-        <img
-          src="../static/images/Lung_SH5.jpeg"
-          style="width: 100%; height: 100%"
-        />
-      </div>
-
-      <div class="myslide fade">
-        <div class="txt">
-          <h1>Kideny Disease Prediction</h1>
-          <p>RenalGuard<br />Be proactive, predict, protect</p>
-        </div>
-        <img
-          src="../static/images/Kidney_SH6.jpeg"
-          style="width: 100%; height: 100%"
-        />
-      </div>
-
-      <div class="myslide fade">
-        <div class="txt">
-          <h1>Breast Cancer Prediction</h1>
-          <p>
-            Safeguarding Grace<br />Don't wait for symptoms, predict potential
-          </p>
-        </div>
-        <img
-          src="../static/images/Breast_SH7.jpg"
-          style="width: 100%; height: 100%"
-        />
-      </div>
-
-      <div class="myslide fade">
-        <div class="txt">
-          <h1>Diabetes Disease Prediction</h1>
-          <p>Glucosight<br />Embrace a sweeter future with proactive care</p>
-        </div>
-        <img
-          src="../static/images/Diabetes_SH8.jpg"
-          style="width: 100%; height: 100%"
-        />
-      </div>
-
-      <div class="myslide fade">
-        <div class="txt">
-          <h1>Skin Cancer Prediction</h1>
-          <p>DermisGuard<br />Unlock the secrets of your skin</p>
-        </div>
-        <img
-          src="../static/images/Skin_SH9.jpeg"
-          style="width: 100%; height: 100%"
-        />
-      </div>
-
-      <div class="myslide fade">
-        <div class="txt">
-          <h1>Malaria Prediction</h1>
-          <p>MosquitoShield<br />Bite back against malaria</p>
-        </div>
-        <img
-          src="../static/images/Malaria_SH10.jpg"
-          style="width: 100%; height: 100%"
-        />
-      </div>
-
-      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-      <a class="next" onclick="plusSlides(1)">&#10095;</a>
-
-      <div class="dotsbox" style="text-align: center">
-        <span class="dot" onclick="currentSlide(1)"></span>
-        <span class="dot" onclick="currentSlide(2)"></span>
-        <span class="dot" onclick="currentSlide(3)"></span>
-        <span class="dot" onclick="currentSlide(4)"></span>
-        <span class="dot" onclick="currentSlide(5)"></span>
-        <span class="dot" onclick="currentSlide(6)"></span>
-        <span class="dot" onclick="currentSlide(7)"></span>
-        <span class="dot" onclick="currentSlide(8)"></span>
-        <span class="dot" onclick="currentSlide(9)"></span>
-        <span class="dot" onclick="currentSlide(10)"></span>
-      </div>
+<!-- ─── Hero ──────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge">AI-Powered Healthcare Platform</div>
+    <h1 class="hero-title">NeuralMed</h1>
+    <p class="hero-sub">Multi-disease detection, personalised AI guidance, and medical image analysis — all in one platform powered by machine learning and Gemini AI.</p>
+    <div class="hero-cta">
+      <a href="/services" class="btn btn-primary">Explore Services</a>
+      <a href="#about" class="btn btn-outline">Learn More</a>
     </div>
 
-    <section id="about" style="padding: 3rem 1.5rem; max-width: 900px; margin: 0 auto; color: #222">
-      <h2 style="margin-bottom: 1rem">About</h2>
-      <p>
-        OpenHealth is a comprehensive AI tool for remote health care: multi-disease
-        prediction, optional LLM-based guidance, and a modular machine learning
-        pipeline. This site is a demo interface for exploration and education—not a
-        substitute for professional medical advice.
+    <div class="tech-pills">
+      <div class="tech-pill"><span>7</span> Disease Modules</div>
+      <div class="tech-pill"><span>ML</span> Trained Models</div>
+      <div class="tech-pill"><span>Gemini</span> 2.0 Flash</div>
+      <div class="tech-pill"><span>CNN</span> Image Classifier</div>
+      <div class="tech-pill"><span>Flask</span> Web Platform</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat-item"><div class="stat-num">7+</div><div class="stat-label">Disease Modules</div></div>
+      <div class="stat-item"><div class="stat-num">AI</div><div class="stat-label">Gemini Powered</div></div>
+      <div class="stat-item"><div class="stat-num">ML</div><div class="stat-label">Trained Models</div></div>
+      <div class="stat-item"><div class="stat-num">0</div><div class="stat-label">Cost to Try</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── Features ─────────────────────────────────────────────────────── -->
+<div class="section">
+  <p class="section-label">What we offer</p>
+  <h2 class="section-title">Everything in one platform</h2>
+  <p class="section-sub" style="margin-bottom:3rem">From disease prediction to AI-generated health guidance — all in a single, easy-to-use interface.</p>
+
+  <div class="grid-3">
+    <div class="feat-v2">
+      <div class="feat-v2-num">01</div>
+      <span class="feat-v2-icon">🧠</span>
+      <div class="feat-v2-title">Multi-Disease Detection</div>
+      <div class="feat-v2-desc">Predict diabetes, heart disease, liver, kidney, Parkinson's, and breast cancer using trained ML models with high accuracy.</div>
+    </div>
+    <div class="feat-v2">
+      <div class="feat-v2-num">02</div>
+      <span class="feat-v2-icon">🤖</span>
+      <div class="feat-v2-title">Gemini AI Guidance</div>
+      <div class="feat-v2-desc">Get personalised educational health information powered by Google Gemini 2.0 Flash — diet tips, symptom explanations, and more.</div>
+    </div>
+    <div class="feat-v2">
+      <div class="feat-v2-num">03</div>
+      <span class="feat-v2-icon">🔬</span>
+      <div class="feat-v2-title">Medical Image Analysis</div>
+      <div class="feat-v2-desc">Upload CT scan images for automated kidney disease classification across Cyst, Stone, Tumor, and Normal categories.</div>
+    </div>
+    <div class="feat-v2">
+      <div class="feat-v2-num">04</div>
+      <span class="feat-v2-icon">💊</span>
+      <div class="feat-v2-title">Medicine Recognition</div>
+      <div class="feat-v2-desc">Identify medications from images using vision-based AI — tablets, capsules, liquids, and packaging labels.</div>
+    </div>
+    <div class="feat-v2">
+      <div class="feat-v2-num">05</div>
+      <span class="feat-v2-icon">🤝</span>
+      <div class="feat-v2-title">AI Health Chatbot</div>
+      <div class="feat-v2-desc">Interactive Gemini-powered chatbot for general medical queries, condition awareness, and health education.</div>
+    </div>
+    <div class="feat-v2">
+      <div class="feat-v2-num">06</div>
+      <span class="feat-v2-icon">🩹</span>
+      <div class="feat-v2-title">First Aid Guide</div>
+      <div class="feat-v2-desc">Comprehensive precautions and first-aid reference covering CPR, burns, fractures, choking, and 20+ emergency scenarios.</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── Detection Modules ─────────────────────────────────────────────── -->
+<div class="section">
+  <p class="section-label">Detection Modules</p>
+  <h2 class="section-title">Available predictions</h2>
+  <p class="section-sub" style="margin-bottom:2.5rem">Enter clinical measurements and get an instant AI-assisted prediction.</p>
+  <div class="grid-3">
+    <a href="/diabetes" style="text-decoration:none">
+      <div class="mod-card">
+        <img class="mod-card-img" src="../static/images/Diabetes_SH8.jpg" alt="Diabetes"/>
+        <div class="mod-card-body">
+          <div class="mod-card-tag">Numeric Input</div>
+          <div class="mod-card-title">Diabetes Prediction</div>
+          <div class="mod-card-desc">8-field glucose &amp; metabolic assessment.</div>
+          <span class="btn btn-outline btn-sm" style="margin-top:.5rem">Try Now →</span>
+        </div>
+      </div>
+    </a>
+    <a href="/heart" style="text-decoration:none">
+      <div class="mod-card">
+        <img class="mod-card-img" src="../static/images/Heart_SH3.jpeg" alt="Heart"/>
+        <div class="mod-card-body">
+          <div class="mod-card-tag">Numeric Input</div>
+          <div class="mod-card-title">Heart Disease</div>
+          <div class="mod-card-desc">13-parameter cardiovascular risk analysis.</div>
+          <span class="btn btn-outline btn-sm" style="margin-top:.5rem">Try Now →</span>
+        </div>
+      </div>
+    </a>
+    <a href="/bcancer" style="text-decoration:none">
+      <div class="mod-card">
+        <img class="mod-card-img" src="../static/images/Breast_SH7.jpg" alt="Breast Cancer"/>
+        <div class="mod-card-body">
+          <div class="mod-card-tag">Numeric Input</div>
+          <div class="mod-card-title">Breast Cancer</div>
+          <div class="mod-card-desc">22-feature tissue measurement classifier.</div>
+          <span class="btn btn-outline btn-sm" style="margin-top:.5rem">Try Now →</span>
+        </div>
+      </div>
+    </a>
+    <a href="/liver" style="text-decoration:none">
+      <div class="mod-card">
+        <img class="mod-card-img" src="../static/images/Liver_SH4.jpg" alt="Liver"/>
+        <div class="mod-card-body">
+          <div class="mod-card-tag">Numeric Input</div>
+          <div class="mod-card-title">Liver Disease</div>
+          <div class="mod-card-desc">10-marker liver function test analysis.</div>
+          <span class="btn btn-outline btn-sm" style="margin-top:.5rem">Try Now →</span>
+        </div>
+      </div>
+    </a>
+    <a href="/parkinsons" style="text-decoration:none">
+      <div class="mod-card">
+        <img class="mod-card-img" src="../static/images/parkison_bg.jpg" alt="Parkinsons"/>
+        <div class="mod-card-body">
+          <div class="mod-card-tag">Voice Metrics</div>
+          <div class="mod-card-title">Parkinson's Disease</div>
+          <div class="mod-card-desc">8-feature vocal biomarker classifier.</div>
+          <span class="btn btn-outline btn-sm" style="margin-top:.5rem">Try Now →</span>
+        </div>
+      </div>
+    </a>
+    <a href="/kidney" style="text-decoration:none">
+      <div class="mod-card">
+        <img class="mod-card-img" src="../static/images/Kidney_SH6.jpeg" alt="Kidney"/>
+        <div class="mod-card-body">
+          <div class="mod-card-tag">Image Upload</div>
+          <div class="mod-card-title">Kidney Disease</div>
+          <div class="mod-card-desc">CT scan classifier — Cyst / Stone / Tumor / Normal.</div>
+          <span class="btn btn-outline btn-sm" style="margin-top:.5rem">Try Now →</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── About ─────────────────────────────────────────────────────────── -->
+<section class="about-section" id="about">
+  <div class="about-inner">
+    <div>
+      <p class="about-label">About NeuralMed</p>
+      <h2 class="about-heading">Healthcare intelligence, <em>built for everyone</em></h2>
+      <p class="about-body">
+        NeuralMed is a comprehensive AI-powered health platform that combines multi-disease prediction, LLM-based clinical guidance, and a modular machine learning pipeline into a single accessible interface.<br><br>
+        Using trained scikit-learn models, a TensorFlow CNN for medical imaging, and Google Gemini 2.0 Flash for natural language health guidance, NeuralMed brings together the best of modern AI for health education and remote care exploration.
       </p>
-    </section>
+      <div class="about-disclaimer">
+        ⚠️ &nbsp; This platform is for <strong>educational and demo purposes only</strong> — not a substitute for professional medical advice.
+      </div>
+    </div>
 
-    <section id="contact" style="padding: 3rem 1.5rem; max-width: 900px; margin: 0 auto; color: #222">
-      <h2 style="margin-bottom: 1rem">Contact</h2>
-      <p>
-        For project questions, see the repository README and maintainer contact
-        details there. For urgent health concerns, contact a qualified clinician or
-        emergency services.
+    <div class="about-stats">
+      <div class="about-stat">
+        <div class="about-stat-num">7+</div>
+        <div class="about-stat-label">Disease Modules</div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-num">CNN</div>
+        <div class="about-stat-label">Image Classifier</div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-num">LLM</div>
+        <div class="about-stat-label">Gemini Powered</div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-num">ML</div>
+        <div class="about-stat-label">Trained Models</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Contact ───────────────────────────────────────────────────────── -->
+<section class="contact-section" id="contact">
+  <div class="contact-inner">
+    <div>
+      <p class="about-label">Contact</p>
+      <h2 class="contact-heading">Get in touch</h2>
+      <p class="contact-sub">
+        Have questions about the platform, want to contribute, or just curious about the project? Check the repository README for setup instructions and maintainer contact details.
       </p>
-    </section>
+      <div class="emergency-card" style="margin-top:1.8rem">
+        <p><strong>Emergency?</strong> This tool is for educational exploration only. For urgent health concerns, always contact a qualified clinician or call emergency services immediately.</p>
+      </div>
+    </div>
 
-    <script src="../static/js/script4.js"></script>
+    <div>
+      <div class="contact-links">
+        <a href="/services" class="contact-link">
+          <div class="contact-link-icon">🔬</div>
+          <div>
+            <div class="contact-link-label">Explore</div>
+            <div class="contact-link-value">Browse all prediction modules</div>
+          </div>
+        </a>
+        <a href="/precautions" class="contact-link">
+          <div class="contact-link-icon">🩹</div>
+          <div>
+            <div class="contact-link-label">First Aid</div>
+            <div class="contact-link-value">Emergency reference guide</div>
+          </div>
+        </a>
+        <a href="/llm?topic=general" class="contact-link">
+          <div class="contact-link-icon">🤖</div>
+          <div>
+            <div class="contact-link-label">AI Chatbot</div>
+            <div class="contact-link-value">Ask a health question</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script>
-      function myFunction() {
-        var x = document.getElementById("myTopnav");
-        if (x.className === "topnav") {
-          x.className += " responsive";
-        } else {
-          x.className = "topnav";
-        }
-      }
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  </body>
+<!-- ─── Footer ────────────────────────────────────────────────────────── -->
+<footer class="footer-bar">
+  <p>© 2024 NeuralMed — AI Health Platform. For educational and demo purposes only.</p>
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="/services">Services</a>
+    <a href="/precautions">First Aid</a>
+    <a href="/llm?topic=general">AI Chatbot</a>
+  </div>
+</footer>
+
+<!-- ─── Chatbot Widget ────────────────────────────────────────────────── -->
+<div class="chat-bubble-popup" id="chatPopup">
+  Hey! I'm NeuralMed AI 👋<br>How can I assist you today?
+  <button class="chat-bubble-popup-close" id="chatPopupClose">✕</button>
+</div>
+
+<button class="chat-fab" id="chatFab" title="Ask NeuralMed AI">
+  <span class="chat-fab-icon">💬</span>
+  <span class="chat-fab-close">✕</span>
+</button>
+
+<div class="chat-panel" id="chatPanel">
+  <div class="chat-panel-header">
+    <div class="chat-panel-header-dot"></div>
+    <div>
+      <h3>NeuralMed AI</h3>
+      <p>Powered by Gemini 2.0 Flash</p>
+    </div>
+  </div>
+
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg bot">
+      <div class="chat-bubble">Hi! I'm NeuralMed AI. Ask me anything about health, symptoms, or our disease prediction modules. 🩺</div>
+      <div class="chat-time">NeuralMed AI</div>
+    </div>
+  </div>
+
+  <div class="chat-input-row">
+    <textarea id="chatInput" placeholder="Ask a health question…" rows="1"></textarea>
+    <button class="chat-send-btn" id="chatSend" title="Send">
+      <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+(function() {
+  const fab   = document.getElementById('chatFab');
+  const panel = document.getElementById('chatPanel');
+  const msgs  = document.getElementById('chatMessages');
+  const input = document.getElementById('chatInput');
+  const send  = document.getElementById('chatSend');
+
+  const popup      = document.getElementById('chatPopup');
+  const popupClose = document.getElementById('chatPopupClose');
+
+  // Show popup after 1.5s, auto-hide after 7s
+  setTimeout(() => popup.classList.add('visible'), 1500);
+  setTimeout(() => popup.classList.remove('visible'), 8500);
+
+  function dismissPopup() { popup.classList.remove('visible'); }
+  popupClose.addEventListener('click', e => { e.stopPropagation(); dismissPopup(); });
+
+  fab.addEventListener('click', () => {
+    dismissPopup();
+    fab.classList.toggle('open');
+    panel.classList.toggle('open');
+    if (panel.classList.contains('open')) input.focus();
+  });
+
+  function now() {
+    return new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+  }
+
+  function formatMsg(text) {
+    return text
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" style="color:var(--primary);text-decoration:underline">$1</a>')
+      .replace(/\n/g, '<br>');
+  }
+
+  function addMsg(text, role) {
+    const wrap = document.createElement('div');
+    wrap.className = 'chat-msg ' + role;
+    wrap.innerHTML = `<div class="chat-bubble">${formatMsg(text)}</div>
+                      <div class="chat-time">${role === 'user' ? 'You' : 'NeuralMed AI'} · ${now()}</div>`;
+    msgs.appendChild(wrap);
+    msgs.scrollTop = msgs.scrollHeight;
+    return wrap;
+  }
+
+  function showTyping() {
+    const wrap = document.createElement('div');
+    wrap.className = 'chat-msg bot';
+    wrap.id = 'typingIndicator';
+    wrap.innerHTML = `<div class="chat-typing"><span></span><span></span><span></span></div>`;
+    msgs.appendChild(wrap);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function removeTyping() {
+    const el = document.getElementById('typingIndicator');
+    if (el) el.remove();
+  }
+
+  async function sendMessage() {
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    input.style.height = 'auto';
+    addMsg(text, 'user');
+    showTyping();
+    send.disabled = true;
+
+    try {
+      const res = await fetch('/chat', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({message: text})
+      });
+      const data = await res.json();
+      removeTyping();
+      addMsg(data.reply || 'Sorry, something went wrong.', 'bot');
+    } catch {
+      removeTyping();
+      addMsg('Network error — please try again.', 'bot');
+    } finally {
+      send.disabled = false;
+      input.focus();
+    }
+  }
+
+  send.addEventListener('click', sendMessage);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  });
+  input.addEventListener('input', () => {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 100) + 'px';
+  });
+})();
+</script>
+
+</body>
 </html>

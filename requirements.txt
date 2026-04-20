@@ -3,15 +3,18 @@ numpy
 scikit-learn
 seaborn
 matplotlib
-flask 
+flask
 dvc
 catboost
 xgboost
 mlflow
-google.generativeai
+google-genai
 python-dotenv
 streamlit
+Pillow
 # TensorFlow has no official wheels for Python 3.14+; use 3.10–3.12 + pip install tensorflow for brain/kidney models
 tensorflow; python_version < "3.14"
 opencv-python
+# D3 additions
+reportlab
 -e .

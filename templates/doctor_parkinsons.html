@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parkinson's — Doctor Portal | NeuralMed</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+<nav class="navbar">
+  <a href="/" class="navbar-brand">NeuralMed</a>
+  <ul class="navbar-links">
+    <li><a href="/doctor">Doctor Portal</a></li>
+    <li><a href="/parkinsons">Patient View</a></li>
+  </ul>
+</nav>
+
+<div class="doctor-form-page">
+  <div class="form-card">
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.3rem;">
+      <span class="doctor-badge">&#9877; Doctor Portal</span>
+    </div>
+    <h1>Parkinson's Disease Assessment</h1>
+    <p class="subtitle">8 sustained phonation biomarkers &middot; XGBoost model &middot; Vocal biomarker attribution</p>
+
+    {% if error %}
+    <div class="result-card" style="background:rgba(255,79,109,.1);border-color:rgba(255,79,109,.4);margin-bottom:1.5rem;">
+      <strong style="color:#ff4f6d;">Error:</strong> {{ error }}
+    </div>
+    {% endif %}
+
+    <div style="background:rgba(0,229,255,.05);border:1px solid var(--border);border-radius:var(--r);padding:.9rem 1.2rem;margin-bottom:1.5rem;">
+      <p style="font-size:.82rem;color:var(--muted);line-height:1.6;">
+        Values derived from sustained phonation recordings. These are dysphonia measures extracted from voice samples
+        and are used as biomarkers for Parkinson's disease detection (UCI ML Repository dataset).
+      </p>
+    </div>
+
+    <form method="POST" action="/doctor/parkinsons">
+      <div class="dr-two-col">
+        <div class="form-group">
+          <label class="form-label">MDVP:Fo — Average Vocal Frequency (Hz)</label>
+          <input type="number" name="MDVPFO" class="form-input" min="80" max="300" step="0.001"
+                 value="{{ inputs['MDVP:Fo — Avg Vocal Freq (Hz)'] if inputs else '' }}" required>
+          <span class="ref-hint">Healthy avg: <strong>~154 Hz</strong> | PD patients often show lower/irregular Fo</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">MDVP:Fhi — Maximum Vocal Frequency (Hz)</label>
+          <input type="number" name="MDVPFHI" class="form-input" min="100" max="600" step="0.001"
+                 value="{{ inputs['MDVP:Fhi — Max Vocal Freq (Hz)'] if inputs else '' }}" required>
+          <span class="ref-hint">Healthy avg: <strong>~197 Hz</strong></span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">MDVP:Flo — Minimum Vocal Frequency (Hz)</label>
+          <input type="number" name="MDVPFLO" class="form-input" min="60" max="300" step="0.001"
+                 value="{{ inputs['MDVP:Flo — Min Vocal Freq (Hz)'] if inputs else '' }}" required>
+          <span class="ref-hint">Healthy avg: <strong>~111 Hz</strong> | Lower range in healthy phonation</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">MDVP:Jitter — Frequency Variation (%)</label>
+          <input type="number" name="MDVPJ" class="form-input" min="0" max="0.1" step="0.0001"
+                 value="{{ inputs['MDVP:Jitter — Freq Variation (%)'] if inputs else '' }}" required>
+          <span class="ref-hint">Normal: <strong>&lt;0.004 (0.4%)</strong> | PD: typically &gt;0.006</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">RPDE — Recurrence Period Density Entropy</label>
+          <input type="number" name="RPDE" class="form-input" min="0" max="1" step="0.0001"
+                 value="{{ inputs['RPDE — Recurrence Period Density'] if inputs else '' }}" required>
+          <span class="ref-hint">Normal: <strong>&lt;0.5</strong> | PD: elevated, range 0.25–0.69</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">DFA — Detrended Fluctuation Analysis</label>
+          <input type="number" name="DFA" class="form-input" min="0.5" max="1" step="0.0001"
+                 value="{{ inputs['DFA — Signal Fractal Scaling'] if inputs else '' }}" required>
+          <span class="ref-hint">Normal: <strong>0.5–0.8</strong> | Fractal scaling of signal</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">spread2 — Nonlinear Fundamental Variation</label>
+          <input type="number" name="spread2" class="form-input" min="0" max="0.5" step="0.0001"
+                 value="{{ inputs['spread2 — Nonlinear Measure'] if inputs else '' }}" required>
+          <span class="ref-hint">Healthy: <strong>&lt;0.20</strong> | PD: &gt;0.20, indicates vocal instability</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">D2 — Correlation Dimension</label>
+          <input type="number" name="D2" class="form-input" min="1" max="4" step="0.0001"
+                 value="{{ inputs['D2 — Correlation Dimension'] if inputs else '' }}" required>
+          <span class="ref-hint">Typical range: <strong>1.5–3.5</strong> | Nonlinear dynamics complexity</span>
+        </div>
+      </div>
+
+      <button type="submit" class="cta-btn" style="margin-top:1.8rem;width:100%;">
+        Run Clinical Assessment
+      </button>
+    </form>
+
+    {% if prediction is defined and prediction is not none %}
+    {% set conf_class = 'high' if confidence >= 75 else ('medium' if confidence >= 55 else 'low') %}
+    <div class="dr-result" id="resultSection">
+      <div class="dr-result-header {{ 'positive' if positive else 'negative' }}">
+        <div>
+          <div style="font-size:.75rem;color:var(--muted);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.06em;">Prediction Result</div>
+          <div class="dr-prediction-label">{{ prediction }}</div>
+        </div>
+        <button class="print-btn" onclick="window.print()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+            <rect x="6" y="14" width="12" height="8"/>
+          </svg>
+          Print / Save PDF
+        </button>
+      </div>
+      <div class="dr-result-body">
+        <div style="margin-bottom:1.8rem;">
+          <div class="dr-section-title">Model Confidence</div>
+          <div class="confidence-track">
+            <div class="confidence-fill {{ conf_class }}" style="width:{{ confidence }}%"></div>
+            <span class="confidence-label">{{ confidence }}%</span>
+          </div>
+          <div style="font-size:.75rem;color:var(--muted);margin-top:.4rem;">XGBoost probability score for predicted class.</div>
+        </div>
+        {% if importances %}
+        <div style="margin-bottom:1.8rem;">
+          <div class="dr-section-title">Feature Importance (XGBoost)</div>
+          <div class="feat-rows">
+            {% for f in importances %}
+            <div class="feat-row">
+              <div class="feat-name">{{ f.name }}</div>
+              <div class="feat-track"><div class="feat-fill" style="width:{{ [f.pct * 2.5, 100] | min }}%"></div></div>
+              <div class="feat-pct">{{ f.pct }}%</div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+        <div style="margin-bottom:1.8rem;">
+          <div class="dr-section-title">Vocal Biomarker Values Submitted</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.5rem;">
+            {% for k, v in inputs.items() %}
+            <div style="background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:.5rem .8rem;">
+              <div style="font-size:.7rem;color:var(--muted);">{{ k }}</div>
+              <div style="font-size:.9rem;font-weight:600;">{{ v }}</div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div>
+          <div class="dr-section-title">Clinical AI Summary</div>
+          <div class="clinical-box">
+            {% for line in summary.split('\n') %}
+              {% if line.strip().endswith(':') and line.strip() in ['Clinical Interpretation:', 'Key Risk Factors:', 'Recommended Next Steps:', 'Important Caveats:'] %}
+                <div class="clinical-section-head">{{ line.strip() }}</div>
+              {% elif line.strip() %}<p>{{ line.strip() }}</p>{% endif %}
+            {% endfor %}
+          </div>
+          <p style="font-size:.72rem;color:var(--muted);margin-top:.75rem;">&#9888;&#65039; AI-generated. For clinical decision support only. Not a substitute for clinical judgment.</p>
+        </div>
+      </div>
+    </div>
+    <script>document.getElementById('resultSection').scrollIntoView({behavior:'smooth',block:'start'});</script>
+    {% endif %}
+  </div>
+</div>
+</body>
+</html>

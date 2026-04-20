@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Portal — NeuralMed</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+<nav class="navbar">
+  <a href="/" class="navbar-brand">NeuralMed</a>
+  <ul class="navbar-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/services">Patient Tools</a></li>
+    <li><a href="/doctor" style="color:var(--primary)">Doctor Portal</a></li>
+  </ul>
+</nav>
+
+<div class="doctor-portal-page">
+  <div class="dp-hero">
+    <div class="doctor-badge" style="margin-bottom:1.2rem">&#9877; Clinical Decision Support</div>
+    <h1>Doctor <span>Clinical Portal</span></h1>
+    <p>Advanced prediction tools with confidence scores, feature attribution, reference ranges, and AI-generated clinical summaries. For qualified medical professionals only.</p>
+    <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;font-size:.8rem;color:var(--muted);">
+      <span style="background:rgba(0,229,255,.08);border:1px solid var(--border);padding:.3rem .9rem;border-radius:20px;">Prediction Confidence %</span>
+      <span style="background:rgba(0,229,255,.08);border:1px solid var(--border);padding:.3rem .9rem;border-radius:20px;">Feature Importance</span>
+      <span style="background:rgba(0,229,255,.08);border:1px solid var(--border);padding:.3rem .9rem;border-radius:20px;">Reference Ranges</span>
+      <span style="background:rgba(0,229,255,.08);border:1px solid var(--border);padding:.3rem .9rem;border-radius:20px;">Clinical AI Summary</span>
+      <span style="background:rgba(0,229,255,.08);border:1px solid var(--border);padding:.3rem .9rem;border-radius:20px;">PDF Report Export</span>
+    </div>
+  </div>
+
+  <div class="dp-modules">
+    <a href="/doctor/diabetes" class="dp-card">
+      <div class="dp-icon">&#129330;</div>
+      <h3>Diabetes Assessment</h3>
+      <p>8 clinical parameters including glucose, insulin, BMI, and pedigree function with fasting reference ranges.</p>
+      <span class="dp-tag">GaussianNB &middot; 8 features</span>
+    </a>
+    <a href="/doctor/heart" class="dp-card">
+      <div class="dp-icon">&#10084;&#65039;</div>
+      <h3>Heart Disease Assessment</h3>
+      <p>13 cardiovascular markers with ECG, cholesterol, and stress test results. LR coefficient attribution.</p>
+      <span class="dp-tag">Logistic Regression &middot; 13 features</span>
+    </a>
+    <a href="/doctor/liver" class="dp-card">
+      <div class="dp-icon">&#129704;</div>
+      <h3>Liver Disease Assessment</h3>
+      <p>10 hepatic function tests including bilirubin, ALT, AST, and albumin with normal lab ranges.</p>
+      <span class="dp-tag">XGBoost &middot; 10 features</span>
+    </a>
+    <a href="/doctor/parkinsons" class="dp-card">
+      <div class="dp-icon">&#129504;</div>
+      <h3>Parkinson's Assessment</h3>
+      <p>8 sustained phonation biomarkers including vocal frequency variation, RPDE, DFA, and D2.</p>
+      <span class="dp-tag">XGBoost &middot; 8 vocal features</span>
+    </a>
+    <a href="/doctor/bcancer" class="dp-card">
+      <div class="dp-icon">&#128200;</div>
+      <h3>Breast Cancer Assessment</h3>
+      <p>22 fine needle aspirate measurements across mean, SE, and worst values. Top-10 feature attribution.</p>
+      <span class="dp-tag">Random Forest &middot; 22 features</span>
+    </a>
+    <div class="dp-card" style="opacity:.5;cursor:default;pointer-events:none;">
+      <div class="dp-icon">&#128247;</div>
+      <h3>Imaging Modules</h3>
+      <p>Kidney, lung, and brain image analysis (patient view). Coming soon for clinical integration.</p>
+      <span class="dp-tag">Coming soon</span>
+    </div>
+  </div>
+
+  <p style="text-align:center;color:var(--muted);font-size:.8rem;margin-top:3rem;max-width:600px;margin-left:auto;margin-right:auto;">
+    These tools are AI-assisted decision support only. All predictions must be reviewed by a qualified physician and confirmed with appropriate clinical investigation. Not for standalone diagnostic use.
+  </p>
+</div>
+</body>
+</html>

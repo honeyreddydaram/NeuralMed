@@ -1,154 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Parkinson's Disease Prediction — NeuralMed</title>
+  <link rel="stylesheet" href="../static/css/main.css"/>
+</head>
+<body>
 
-    <link rel="stylesheet" href="../static/css/input.css" />
-    <title>Parkinson's Disease Detection</title>
+<nav class="navbar">
+  <a class="navbar-brand" href="/">NeuralMed</a>
+  <ul class="navbar-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/services">Services</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
+</nav>
 
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        background-image: url(../static/images/parkison_bg.jpg);
-        background-size: cover;
-        font-family: Arial, sans-serif;
-      }
-      .heading h2 {
-        color: #fff;
-        font-size: 5em;
-        position: absolute;
-        top: -50px;
-        left: 300px;
-      }
-      .bg-text {
-        background-color: rgb(0, 238, 255);
-        background-color: rgba(0, 0, 0, 0.6);
-        color: #0ef;
-        font-weight: bold;
-        border: 3px solid #0ef;
-        position: absolute;
-        top: 78%;
-        left: 50%;
-        margin-top: -150px;
-        transform: translate(-90%, -50%);
-        z-index: 2;
-        width: 50%;
-        padding: 20px;
-        text-align: center;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .bg-text1 {
-        background-color: rgb(0, 238, 255);
-        background-color: rgba(0, 0, 0, 0.3);
-        color: #0ef;
-        font-weight: bold;
-        border: 3px solid #0ef;
-        position: absolute;
-        top: 85%;
-        left: 50%;
-        transform: translate(50%, -100%);
-        z-index: 2;
-        width: 25%;
-        padding: 20px;
-        text-align: center;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-      }
-      .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: black;
-        opacity: 0.7;
-        z-index: -1;
-      }
-      form{
-        display: flex;
-        flex-wrap: wrap;
-        
-      }
-    </style>
-  </head>
-  <body>
-    <div class="overlay"></div>
-    <section>
-      <div class="heading">
-        <h2>Parkinson`s Disease Prediction</h2>
-        <h2>Parkinson`s Disease Prediction</h2>
-      </div>
-    </section>
-    <div class="bg-text">
+<div class="form-page" style="--form-bg: url(../static/images/parkison_bg.jpg)">
+  <div class="form-wrap">
+    <div class="form-header">
+      <a href="/services" class="btn btn-ghost btn-sm" style="margin-bottom:1.2rem">&larr; Back to Services</a>
+      <h1>Parkinson's Disease Prediction</h1>
+      <p>Enter 8 vocal biomarker measurements for an ML-based Parkinson's disease risk assessment.</p>
+    </div>
+
+    <div class="form-card">
       <form action="/parkinsons" method="post">
-        <div class="container">
-          <input type="number" step="any" name="MDVPFO" required="" class="input" />
-          <label class="label" for="MDVPFO">MDVPfo:</label>
+        <div class="form-grid">
+          <div class="field">
+            <label for="MDVPFO">MDVP:Fo (Hz) — Average vocal frequency</label>
+            <input type="number" id="MDVPFO" name="MDVPFO" step="any" required placeholder="e.g. 209.5"/>
+          </div>
+          <div class="field">
+            <label for="MDVPFHI">MDVP:Fhi (Hz) — Max vocal frequency</label>
+            <input type="number" id="MDVPFHI" name="MDVPFHI" step="any" required placeholder="e.g. 253.0"/>
+          </div>
+          <div class="field">
+            <label for="MDVPFLO">MDVP:Flo (Hz) — Min vocal frequency</label>
+            <input type="number" id="MDVPFLO" name="MDVPFLO" step="any" required placeholder="e.g. 89.5"/>
+          </div>
+          <div class="field">
+            <label for="MDVPJ">MDVP:Jitter (%) — Frequency variation</label>
+            <input type="number" id="MDVPJ" name="MDVPJ" step="any" required placeholder="e.g. 0.00289"/>
+          </div>
+          <div class="field">
+            <label for="RPDE">RPDE — Nonlinear dynamic complexity</label>
+            <input type="number" id="RPDE" name="RPDE" step="any" required placeholder="e.g. 0.366"/>
+          </div>
+          <div class="field">
+            <label for="DFA">DFA — Signal fractal scaling exponent</label>
+            <input type="number" id="DFA" name="DFA" step="any" required placeholder="e.g. 0.695"/>
+          </div>
+          <div class="field">
+            <label for="spread2">Spread2 — Nonlinear measure of fundamental frequency</label>
+            <input type="number" id="spread2" name="spread2" step="any" required placeholder="e.g. 0.104"/>
+          </div>
+          <div class="field">
+            <label for="D2">D2 — Nonlinear dynamic measure</label>
+            <input type="number" id="D2" name="D2" step="any" required placeholder="e.g. 2.047"/>
+          </div>
         </div>
-        <div class="container">
-          <input type="number" step="any" name="MDVPFHI" required="" class="input" />
-          <label class="label" for="MDVPFHI">MDVPfhi:</label>
-        </div>
-        <div class="container">
-          <input type="number" step="any" name="MDVPFLO" required="" class="input" />
-          <label class="label" for="MDVPFLO">MDVPflo:</label>
-        </div>
-        <div class="container">
-          <input type="number" step="any" name="MDVPJ" required="" class="input" />
-          <label class="label" for="MDVPJ">MDVPjitter:</label>
-        </div>
-        <div class="container">
-          <input type="number" step="any" name="RPDE" required="" class="input" />
-          <label class="label" for="RPDE">RPDE:</label>
-        </div>
-        <div class="container">
-          <input type="number" step="any" name="DFA" required="" class="input" />
-          <label class="label" for="DFA">DFA:</label>
-        </div>
-        <div class="container">
-          <input type="number" step="any" name="spread2" required="" class="input" />
-          <label class="label" for="spread2">spread2:</label>
-        </div>
-        <div class="container">
-          <input type="number" step="any" name="D2" required="" class="input" />
-          <label class="label" for="D2">D2:</label>
-        </div>
-        <div class="container">
-            <input type="submit" value="Submit" class="button" />
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Run Prediction</button>
         </div>
       </form>
     </div>
-    <div class="bg-text1">
-        <h2>Results</h2>
 
-        <br>
-        {% if final_result is defined %}
-        <div class="result">
-          {% if final_result == 0 %}
-          <center><h1>No Parkinson's Disease detected</h1></center>
-          {% else %}
-          <center><h1>Parkinson's Disease detected</h1></center>
-          {% endif %}
-        </div>
+    <div class="result-card">
+      <h3>Prediction Result</h3>
+      {% if final_result is defined %}
+        {% if final_result == 0 %}
+          <div class="result-badge result-negative">No Parkinson's Disease Detected</div>
+        {% else %}
+          <div class="result-badge result-positive">Parkinson's Disease Detected</div>
         {% endif %}
-
-
-        <br>
-
-
-    <button type="button" class="moreinfo" id="redirectmore" data-llm-topic="parkinson">
-      More Info
-    </button>
-
-    <script src="../static/js/input.js"></script>
-   
+      {% else %}
+        <p style="color:var(--muted)">Submit the form above to see results.</p>
+      {% endif %}
+      <div class="result-actions">
+        <button class="btn btn-outline" id="redirectmore" data-llm-topic="parkinson">AI Health Info</button>
+      </div>
+    </div>
+  </div>
 </div>
-  </body>
+
+<script src="../static/js/input.js"></script>
+</body>
 </html>
