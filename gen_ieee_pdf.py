@@ -19,7 +19,7 @@ BM = 1.0 * inch
 GAP = 0.25 * inch
 CW = (PW - LM - RM - GAP) / 2   # ≈ 252 pt
 FH = PH - TM - BM               # full body height
-TITLE_H = 2.1 * inch
+TITLE_H = 2.9 * inch
 
 # ── Fonts ──────────────────────────────────────────────────────────────────────
 T   = 'Times-Roman'
@@ -100,14 +100,23 @@ def make_templates():
 
 # ── Helper: scaled image ───────────────────────────────────────────────────────
 RESULTS = '/Users/honey/Downloads/Deep-Learning-Project/results'
+DOCS    = '/Users/honey/Downloads/Deep-Learning-Project/docs'
 
-def fig(filename, caption, width=None):
-    path = os.path.join(RESULTS, filename)
+def fig(filename, caption, width=None, base=None):
+    base = base or RESULTS
+    path = os.path.join(base, filename)
     if not os.path.exists(path):
         return []
+    from PIL import Image as PILImage
+    with PILImage.open(path) as im:
+        iw, ih = im.size
+    aspect = ih / iw
     w = width or CW
-    img = Image(path, width=w, height=w * 0.65)
+    img = Image(path, width=w, height=w * aspect)
     return [img, Paragraph(caption, sCaption), Spacer(1, 4)]
+
+def screen(filename, caption):
+    return fig(filename, caption, width=CW, base=DOCS)
 
 def P(text, style=sBody):
     return Paragraph(text, style)
@@ -435,9 +444,30 @@ def build_story():
         'SHAP-based global explanations, SMOTE for liver disease, and ONNX export '
         'for deployment-time TensorFlow independence.'))
 
-    # ═══════════════════════ SECTION IX — Conclusion ══════════════════════════
+    # ═══════════════════════ SECTION IX — System Interface ═══════════════════
+    s.append(H('IX.  System Interface'))
+    s.append(P(
+        'Figures 7–12 illustrate key screens of the NeuralMed interface. '
+        'The platform features a dark-mode design system with a unified CSS '
+        'design language across all 21 Jinja2 templates.'))
     s.append(Spacer(1, 4))
-    s.append(H('IX.  Conclusion'))
+
+    s += screen('01_landing.png',
+                'Fig. 7. Landing page with embedded Gemini-powered AI chatbot.')
+    s += screen('04_diabetes_form.png',
+                'Fig. 8. Patient Portal — Diabetes screening form with input validation.')
+    s += screen('05_diabetes_positive.png',
+                'Fig. 9. Patient Portal — Diabetes positive prediction with AI explanation.')
+    s += screen('12_bcancer_form.png',
+                'Fig. 10. Patient Portal — Breast Cancer FNA measurement form.')
+    s += screen('13_bcancer_malignant.png',
+                'Fig. 11. Patient Portal — Breast Cancer malignant prediction result.')
+    s += screen('23_kidney_form.png',
+                'Fig. 12. Kidney CT upload interface (VGG-16 inference via subprocess).')
+
+    # ═══════════════════════ SECTION X — Conclusion ═══════════════════════════
+    s.append(Spacer(1, 4))
+    s.append(H('X.  Conclusion'))
     s.append(P(
         'NeuralMed D3 demonstrates that a single Flask application can reliably '
         'serve six disease-screening modules with near-clinical accuracy on '
