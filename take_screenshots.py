@@ -7,12 +7,15 @@ BASE   = 'http://localhost:5001'
 OUTDIR = '/Users/honey/Downloads/Deep-Learning-Project/docs_new'
 os.makedirs(OUTDIR, exist_ok=True)
 
-def shot(page, name, scroll_to=None):
+def shot(page, name, scroll_to=None, scroll_bottom=False):
     if scroll_to:
-        page.evaluate(f"var el=document.getElementById('{scroll_to}'); if(el) el.scrollIntoView();")
-        time.sleep(0.5)
+        page.evaluate(f"var el=document.getElementById('{scroll_to}'); if(el) el.scrollIntoView({{behavior:'instant',block:'start'}}); else window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(0.6)
+    elif scroll_bottom:
+        page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+        time.sleep(0.6)
     path = os.path.join(OUTDIR, name)
-    page.screenshot(path=path, full_page=False)   # viewport only — keeps size predictable
+    page.screenshot(path=path, full_page=False)
     print(f'  ✓ {name}')
 
 def go(page, path, wait='networkidle'):
@@ -105,20 +108,20 @@ with sync_playwright() as p:
     shot(page, 'p04_diabetes_form.png')
 
     post(page, '/diabetes', DIABETES_POS)
-    shot(page, 'p05_diabetes_detected.png', scroll_to='resultSection')
+    shot(page, 'p05_diabetes_detected.png', scroll_bottom=True)
 
     post(page, '/diabetes', DIABETES_NEG)
-    shot(page, 'p06_diabetes_not_detected.png', scroll_to='resultSection')
+    shot(page, 'p06_diabetes_not_detected.png', scroll_bottom=True)
 
     print('\n── Patient Portal — Heart ───────────────────────────')
     go(page, '/heart')
     shot(page, 'p07_heart_form.png')
 
     post(page, '/heart', HEART_POS)
-    shot(page, 'p08_heart_detected.png', scroll_to='resultSection')
+    shot(page, 'p08_heart_detected.png', scroll_bottom=True)
 
     post(page, '/heart', HEART_NEG)
-    shot(page, 'p09_heart_not_detected.png', scroll_to='resultSection')
+    shot(page, 'p09_heart_not_detected.png', scroll_bottom=True)
 
     print('\n── Patient Portal — Liver ───────────────────────────')
     go(page, '/liver')
@@ -135,20 +138,20 @@ with sync_playwright() as p:
     shot(page, 'p13_parkinsons_form.png')
 
     post(page, '/parkinsons', PARK_POS)
-    shot(page, 'p14_parkinsons_detected.png', scroll_to='resultSection')
+    shot(page, 'p14_parkinsons_detected.png', scroll_bottom=True)
 
     post(page, '/parkinsons', PARK_NEG)
-    shot(page, 'p15_parkinsons_not_detected.png', scroll_to='resultSection')
+    shot(page, 'p15_parkinsons_not_detected.png', scroll_bottom=True)
 
     print('\n── Patient Portal — Breast Cancer ───────────────────')
     go(page, '/bcancer')
     shot(page, 'p16_bcancer_form.png')
 
     post(page, '/bcancer', BCANCER_MAL)
-    shot(page, 'p17_bcancer_malignant.png', scroll_to='resultSection')
+    shot(page, 'p17_bcancer_malignant.png', scroll_bottom=True)
 
     post(page, '/bcancer', BCANCER_BEN)
-    shot(page, 'p18_bcancer_benign.png', scroll_to='resultSection')
+    shot(page, 'p18_bcancer_benign.png', scroll_bottom=True)
 
     print('\n── Patient Portal — Kidney ──────────────────────────')
     go(page, '/kidney')
