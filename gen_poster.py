@@ -17,16 +17,16 @@ PH = 48 * inch   # 3456 pt
 M  = 0.45 * inch  # margin
 
 # ── Colours ────────────────────────────────────────────────────────────────────
-BG       = colors.HexColor('#050b14')
-PRIMARY  = colors.HexColor('#00e5ff')
-ACCENT   = colors.HexColor('#7c4dff')
-CARD     = colors.HexColor('#0d1b2a')
-BORDER   = colors.HexColor('#1e3a5f')
-WHITE    = colors.white
-MUTED    = colors.HexColor('#8899aa')
-RED      = colors.HexColor('#ff4f6d')
-GREEN    = colors.HexColor('#00e676')
-YELLOW   = colors.HexColor('#ffd740')
+BG       = colors.white
+PRIMARY  = colors.HexColor('#0057b8')
+ACCENT   = colors.HexColor('#5c35cc')
+CARD     = colors.HexColor('#f4f7fb')
+BORDER   = colors.HexColor('#c5d5e8')
+WHITE    = colors.HexColor('#111111')   # body text
+MUTED    = colors.HexColor('#555555')
+RED      = colors.HexColor('#c0392b')
+GREEN    = colors.HexColor('#1a7a3e')
+YELLOW   = colors.HexColor('#b35c00')
 
 # ── Fonts ──────────────────────────────────────────────────────────────────────
 T   = 'Helvetica'
@@ -41,10 +41,10 @@ def S(name, font=T, size=18, leading=None, align=TA_LEFT, color=WHITE, **kw):
                           alignment=align, textColor=color, **kw)
 
 # ── Style definitions ──────────────────────────────────────────────────────────
-sMainTitle  = S('mt',  TB,  72, 82, TA_CENTER, PRIMARY)
-sSubTitle   = S('st',  T,   32, 40, TA_CENTER, MUTED)
-sAuthor     = S('au',  TB,  28, 36, TA_CENTER, WHITE)
-sAffil      = S('af',  T,   24, 30, TA_CENTER, MUTED)
+sMainTitle  = S('mt',  TB,  72, 82, TA_CENTER, colors.white)
+sSubTitle   = S('st',  T,   32, 40, TA_CENTER, colors.HexColor('#cce0ff'))
+sAuthor     = S('au',  TB,  28, 36, TA_CENTER, colors.white)
+sAffil      = S('af',  T,   24, 30, TA_CENTER, colors.HexColor('#cce0ff'))
 
 sSectHead   = S('sh',  TB,  34, 40, TA_CENTER, PRIMARY, spaceBefore=8, spaceAfter=6)
 sSubHead    = S('ssh', TB,  24, 30, TA_LEFT,   PRIMARY, spaceBefore=4, spaceAfter=4)
@@ -80,7 +80,7 @@ def simg(fname, w, caption=None):
 
 def card_table(data, col_widths, row_bg=True):
     ts = TableStyle([
-        ('BACKGROUND',    (0,0), (-1,0),  colors.HexColor('#0a2540')),
+        ('BACKGROUND',    (0,0), (-1,0),  colors.HexColor('#dce8f5')),
         ('TEXTCOLOR',     (0,0), (-1,0),  PRIMARY),
         ('FONTNAME',      (0,0), (-1,0),  TB),
         ('FONTSIZE',      (0,0), (-1,-1), 18),
@@ -89,7 +89,7 @@ def card_table(data, col_widths, row_bg=True):
         ('VALIGN',        (0,0), (-1,-1), 'MIDDLE'),
         ('TOPPADDING',    (0,0), (-1,-1), 7),
         ('BOTTOMPADDING', (0,0), (-1,-1), 7),
-        ('BACKGROUND',    (0,1), (-1,-1), CARD),
+        ('BACKGROUND',    (0,1), (-1,-1), colors.white),
     ])
     if row_bg:
         for i in range(1, len(data)):
@@ -105,12 +105,9 @@ def draw_bg(canvas, doc):
     canvas.rect(0, 0, PW, PH, fill=1, stroke=0)
     # top accent bar
     canvas.setFillColor(PRIMARY)
-    canvas.rect(0, PH-8, PW, 8, fill=1, stroke=0)
+    canvas.rect(0, PH-10, PW, 10, fill=1, stroke=0)
     # bottom accent bar
-    canvas.rect(0, 0, PW, 6, fill=1, stroke=0)
-    # subtle grid lines
-    canvas.setStrokeColor(colors.HexColor('#0d1b2a'))
-    canvas.setLineWidth(0.5)
+    canvas.rect(0, 0, PW, 8, fill=1, stroke=0)
 
 # ── Column layout helper ───────────────────────────────────────────────────────
 BODY_W = PW - 2*M
@@ -123,7 +120,7 @@ def section_box(title, content_table, width=None):
     title_row = [[P(title, sSectHead)]]
     title_t = Table(title_row, colWidths=[w])
     title_t.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,-1), colors.HexColor('#061526')),
+        ('BACKGROUND', (0,0), (-1,-1), colors.HexColor('#dce8f5')),
         ('TOPPADDING',    (0,0), (-1,-1), 10),
         ('BOTTOMPADDING', (0,0), (-1,-1), 10),
         ('LEFTPADDING',   (0,0), (-1,-1), 16),
@@ -149,11 +146,11 @@ def build():
     ]]
     header_t = Table([[cell] for cell in header_data[0]], colWidths=[BODY_W])
     header_t.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,-1), BG),
-        ('LEFTPADDING', (0,0), (-1,-1), 0),
-        ('RIGHTPADDING', (0,0), (-1,-1), 0),
-        ('TOPPADDING', (0,0), (-1,-1), 0),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 0),
+        ('BACKGROUND', (0,0), (-1,-1), PRIMARY),
+        ('LEFTPADDING', (0,0), (-1,-1), 20),
+        ('RIGHTPADDING', (0,0), (-1,-1), 20),
+        ('TOPPADDING', (0,0), (-1,-1), 18),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 18),
     ]))
     story += [header_t, SP(16)]
 
@@ -172,18 +169,18 @@ def build():
         [P('→ Plain-language predictions with Gemini AI explanation', sBullet)],
         [P('→ Input validation, graceful error handling', sBullet)],
         [SP(8)],
-        [P('Doctor Portal <font color="#00e676">NEW in D3</font>', sSubHead)],
+        [P('Doctor Portal', sSubHead)],
         [P('→ Model confidence percentage', sBullet)],
         [P('→ Top-10 feature importance attribution', sBullet)],
         [P('→ Per-feature clinical reference ranges', sBullet)],
         [P('→ Gemini-2.5-Flash-Lite structured summary', sBullet)],
         [P('→ Browser-native PDF export', sBullet)],
         [SP(10)],
-        [P('D2 → D3 Improvements', sSubHead)],
-        [P('→ 5-fold stratified cross-validation added', sBullet)],
-        [P('→ max_depth=10 to fix 100% overfit in RF/DT', sBullet)],
-        [P('→ Gemini API updated: gemini-pro → gemini-2.5-flash-lite', sBullet)],
-        [P('→ Typed exception handlers replace broad except', sBullet)],
+        [P('Evaluation', sSubHead)],
+        [P('→ 5-fold stratified cross-validation', sBullet)],
+        [P('→ Confusion matrices + ROC/AUC per disease', sBullet)],
+        [P('→ max_depth=10 constraint on ensemble models', sBullet)],
+        [P('→ 80/20 train-test split for held-out metrics', sBullet)],
     ]
     mot_t = Table(mot, colWidths=[COL3])
     mot_t.setStyle(TableStyle([
@@ -221,7 +218,7 @@ def build():
         [P('Heart', sTD), P('Naive Bayes', sTD),
          P('Strong on correlated cardiac markers', sTDL)],
         [P("Parkinson's", sTD), P('RF depth=10', sTD),
-         P('Ensemble; depth cap fixes D2 overfit', sTDL)],
+         P('Ensemble; max_depth=10 prevents overfitting', sTDL)],
         [P('Breast Cancer', sTD), P('Logistic Reg.', sTD),
          P('Linear separability in FNA feature space', sTDL)],
         [P('Kidney CT', sTD), P('VGG-16 TL', sTD),
@@ -245,8 +242,8 @@ def build():
     out_cw = [COL3/2 - 4, COL3/2 - 4]
     out_t = Table(out_data, colWidths=out_cw, hAlign='CENTER')
     out_t.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (0,-1), colors.HexColor('#0a2540')),
-        ('BACKGROUND', (1,0), (1,-1), colors.HexColor('#0a2a1a')),
+        ('BACKGROUND', (0,0), (0,-1), colors.HexColor('#dce8f5')),
+        ('BACKGROUND', (1,0), (1,-1), colors.HexColor('#ddf0e8')),
         ('GRID', (0,0), (-1,-1), 0.5, BORDER),
         ('ALIGN', (0,0), (-1,-1), 'CENTER'),
         ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
@@ -302,10 +299,10 @@ def build():
     perf_t = card_table(perf_data, pcw)
 
     eval_rows += [[perf_t], [SP(10)],
-        [P('Overfitting Fix (D2 → D3)', sSubHead)],
-        [P('D2: Random Forest + Decision Tree reached <b>100% train accuracy</b> '
-           '(memorisation). D3 constrains <b>max_depth=10</b> — test accuracy '
-           'maintained while CV gap closed.', sBody)],
+        [P('Overfitting Prevention', sSubHead)],
+        [P('Random Forest and Decision Tree constrained to <b>max_depth=10</b> — '
+           'prevents memorisation while maintaining competitive test accuracy '
+           'and stable cross-validation scores.', sBody)],
         [SP(6)],
         [P('CNN Architecture — Kidney CT', sSubHead)],
         [P('VGG-16 pretrained on ImageNet. Final dense layers replaced: '
