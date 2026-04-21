@@ -12,8 +12,8 @@ from reportlab.lib.pagesizes import landscape
 from PIL import Image as PILImage
 
 # ── Dimensions ─────────────────────────────────────────────────────────────────
-PW = 36 * inch   # 2592 pt
-PH = 48 * inch   # 3456 pt
+PW = 48 * inch   # 3456 pt
+PH = 36 * inch   # 2592 pt
 M  = 0.45 * inch  # margin
 
 # ── Colours ────────────────────────────────────────────────────────────────────
