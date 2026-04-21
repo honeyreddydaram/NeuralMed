@@ -413,7 +413,7 @@ def build():
     s1 = scr_cell('p01_landing.png',              'Landing — chatbot + modules')
     s2 = scr_cell('p08_heart_detected.png',        'Heart Disease Detected — patient view')
     s3 = scr_cell('p09_heart_not_detected.png',    'No Heart Disease Detected — patient view')
-    s4 = scr_cell('d03_doctor_diabetes_detected.png', 'Doctor Portal — Diabetes Detected')
+    s4 = scr_cell('d06_doctor_heart_detected.png', 'Doctor Portal — Heart Disease Detected')
 
     scr_row = Table([[s1, Spacer(COL_GAP,1), s2, Spacer(COL_GAP,1), s3, Spacer(COL_GAP,1), s4]],
                     colWidths=[scr_w, COL_GAP, scr_w, COL_GAP, scr_w, COL_GAP, scr_w])
