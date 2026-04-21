@@ -392,7 +392,8 @@ def build():
     story += [plots_row, SP(20)]
 
     # ════════════════════ ROW 3: Screenshots + Conclusion ════════════════════
-    scr_w = (BODY_W*0.65 - COL_GAP*2) / 3
+    # 4 screenshots: landing | detected | not detected | doctor portal
+    scr_w = (BODY_W*0.65 - COL_GAP*3) / 4
 
     def scr_cell(fname, cap):
         items = simg(fname, scr_w)
@@ -409,12 +410,13 @@ def build():
         ]))
         return t
 
-    s1 = scr_cell('p01_landing.png',           'Landing — chatbot + modules')
-    s2 = scr_cell('p14_parkinsons_detected.png',"Parkinson's Detected — patient view")
-    s3 = scr_cell('d03_doctor_diabetes_detected.png', 'Doctor Portal — Diabetes Detected')
+    s1 = scr_cell('p01_landing.png',              'Landing — chatbot + modules')
+    s2 = scr_cell('p08_heart_detected.png',        'Heart Disease Detected — patient view')
+    s3 = scr_cell('p09_heart_not_detected.png',    'No Heart Disease Detected — patient view')
+    s4 = scr_cell('d03_doctor_diabetes_detected.png', 'Doctor Portal — Diabetes Detected')
 
-    scr_row = Table([[s1, Spacer(COL_GAP,1), s2, Spacer(COL_GAP,1), s3]],
-                    colWidths=[scr_w, COL_GAP, scr_w, COL_GAP, scr_w])
+    scr_row = Table([[s1, Spacer(COL_GAP,1), s2, Spacer(COL_GAP,1), s3, Spacer(COL_GAP,1), s4]],
+                    colWidths=[scr_w, COL_GAP, scr_w, COL_GAP, scr_w, COL_GAP, scr_w])
     scr_row.setStyle(TableStyle([
         ('LEFTPADDING',  (0,0), (-1,-1), 0),
         ('RIGHTPADDING', (0,0), (-1,-1), 0),
