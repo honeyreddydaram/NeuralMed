@@ -290,19 +290,19 @@ def build():
     perf_data = [
         [P('Disease', sTH), P('Best Model', sTH), P('Test Acc', sTH),
          P('CV Mean', sTH), P('±Std', sTH), P('AUC', sTH)],
-        [P('Diabetes',      sTD), P('GaussianNB',    sTD),
-         P('74.7%', sTD), P('76.0%', sTD), P('1.7', sTD), P('0.84', sTD)],
-        [P('Heart Disease', sTD), P('Naive Bayes',   sTD),
-         P('85.2%', sTD), P('84.1%', sTD), P('4.3', sTD), P('0.92', sTD)],
-        [P("Parkinson's",   sTD), P('RF depth=10',   sTD),
-         P('92.3%', S('g',TB,19,24,TA_CENTER,GREEN)), P('88.2%', sTD), P('4.8', sTD),
-         P('0.97', S('g2',TB,19,24,TA_CENTER,GREEN))],
         [P('Breast Cancer', sTD), P('Logistic Reg.', sTD),
          P('98.2%', S('g3',TB,19,24,TA_CENTER,GREEN)), P('97.4%', sTD), P('1.7', sTD),
          P('0.99', S('g4',TB,19,24,TA_CENTER,GREEN))],
+        [P("Parkinson's",   sTD), P('RF depth=10',   sTD),
+         P('92.3%', S('g',TB,19,24,TA_CENTER,GREEN)), P('88.2%', sTD), P('4.8', sTD),
+         P('0.97', S('g2',TB,19,24,TA_CENTER,GREEN))],
         [P('Kidney CT',     sTD), P('VGG-16 TL',     sTD),
          P('99.0%', S('g5',TB,19,24,TA_CENTER,GREEN)), P('—', sTD), P('—', sTD),
          P('—', sTD)],
+        [P('Heart Disease', sTD), P('Naive Bayes',   sTD),
+         P('85.2%', sTD), P('84.1%', sTD), P('4.3', sTD), P('0.92', sTD)],
+        [P('Diabetes',      sTD), P('GaussianNB',    sTD),
+         P('74.7%', sTD), P('76.0%', sTD), P('1.7', sTD), P('0.84', sTD)],
     ]
     pcw = [COL3*0.20, COL3*0.21, COL3*0.13, COL3*0.13, COL3*0.10, COL3*0.10]
     # adjust to sum to COL3
