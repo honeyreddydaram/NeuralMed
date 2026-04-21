@@ -93,7 +93,7 @@ def card_table(data, col_widths, row_bg=True):
     ])
     if row_bg:
         for i in range(1, len(data)):
-            c = colors.HexColor('#0f2030') if i % 2 == 0 else CARD
+            c = colors.HexColor('#eaf1fb') if i % 2 == 0 else colors.white
             ts.add('BACKGROUND', (0,i), (-1,i), c)
     t = Table(data, colWidths=col_widths, repeatRows=1)
     t.setStyle(ts)
