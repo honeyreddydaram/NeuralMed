@@ -160,27 +160,38 @@ def build():
     mot = [
         [P('Overview', sSectHead)],
         [SP(6)],
-        [P('Early detection of chronic diseases using ML reduces diagnostic delays '
-           'and extends preventive care to underserved populations. NeuralMed unifies '
-           '<b>five disease-screening modules</b> and a <b>deep learning CT classifier</b> '
-           'into a single Flask web application with two clinical portals.', sBody)],
+        [P('NeuralMed unifies <b>five disease-screening modules</b> and a '
+           '<b>deep learning CT classifier</b> into a single Flask web application '
+           'serving both patients and clinicians through dedicated portals.', sBody)],
         [SP(10)],
-        [P('Patient Portal', sSubHead)],
-        [P('→ Plain-language predictions with Gemini AI explanation', sBullet)],
-        [P('→ Input validation, graceful error handling', sBullet)],
-        [SP(8)],
-        [P('Doctor Portal', sSubHead)],
-        [P('→ Model confidence percentage', sBullet)],
-        [P('→ Top-10 feature importance attribution', sBullet)],
-        [P('→ Per-feature clinical reference ranges', sBullet)],
-        [P('→ Gemini-2.5-Flash-Lite structured summary', sBullet)],
-        [P('→ Browser-native PDF export', sBullet)],
+
+        [P('Patient Portal — Algorithms', sSubHead)],
+        [P('→ <b>Diabetes:</b> Gaussian Naïve Bayes — probabilistic classifier '
+           'optimal for continuous clinical features (glucose, BMI, insulin)', sBullet)],
+        [P('→ <b>Heart Disease:</b> Naïve Bayes — strong performance on correlated '
+           'cardiovascular markers (ECG, cholesterol, thalassemia)', sBullet)],
+        [P("→ <b>Parkinson's:</b> Random Forest (max_depth=10) — ensemble of "
+           'decision trees on 8 vocal biomarkers; depth-constrained to prevent overfitting', sBullet)],
+        [P('→ <b>Breast Cancer:</b> Logistic Regression — linear separability in '
+           '30-feature FNA space; 98.2% test accuracy', sBullet)],
+        [P('→ <b>Kidney CT:</b> VGG-16 Transfer Learning — ImageNet pretrained CNN '
+           'fine-tuned for 4-class CT classification (Normal/Cyst/Stone/Tumor)', sBullet)],
         [SP(10)],
-        [P('Evaluation', sSubHead)],
-        [P('→ 5-fold stratified cross-validation', sBullet)],
-        [P('→ Confusion matrices + ROC/AUC per disease', sBullet)],
-        [P('→ max_depth=10 constraint on ensemble models', sBullet)],
-        [P('→ 80/20 train-test split for held-out metrics', sBullet)],
+
+        [P('Doctor Portal — Clinical Algorithm Outputs', sSubHead)],
+        [P('→ <b>Confidence %:</b> model.predict_proba() — calibrated class probability', sBullet)],
+        [P('→ <b>Feature Importance:</b> RF feature_importances_ / LR coefficients — '
+           'top-10 ranked by magnitude', sBullet)],
+        [P('→ <b>Reference Ranges:</b> dataset-derived benign vs. malignant thresholds '
+           'displayed per input field', sBullet)],
+        [P('→ <b>Gemini 2.5 Flash Lite:</b> LLM structured prompt → Clinical '
+           'Interpretation · Risk Factors · Next Steps · Caveats', sBullet)],
+        [SP(10)],
+
+        [P('Evaluation Protocol', sSubHead)],
+        [P('→ 8 classifiers benchmarked per disease', sBullet)],
+        [P('→ Stratified 5-fold CV — mean ± std accuracy', sBullet)],
+        [P('→ Held-out 80/20 split — test acc, precision, recall, F1, AUC', sBullet)],
     ]
     mot_t = Table(mot, colWidths=[COL3])
     mot_t.setStyle(TableStyle([
